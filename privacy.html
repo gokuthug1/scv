@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | Source Code Viewer</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Light Theme Variables (Default) */
+            --bg-base: #f8fafc;
+            --bg-surface: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --brand-primary: #0ea5e9;
+            --brand-hover: #0284c7;
+            --border: #e2e8f0;
+            --code-bg: #f1f5f9;
+            --code-text: #0f172a;
+            --highlight: #ef4444;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                /* Dark Theme Variables */
+                --bg-base: #020617;
+                --bg-surface: #0f172a;
+                --text-main: #f8fafc;
+                --text-muted: #94a3b8;
+                --brand-primary: #38bdf8;
+                --brand-hover: #7dd3fc;
+                --border: #1e293b;
+                --code-bg: #1e293b;
+                --code-text: #e2e8f0;
+                --highlight: #f87171;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--bg-surface);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .nav-logo svg {
+            color: var(--brand-primary);
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--brand-primary);
+        }
+
+        /* Main Content Container */
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 40px;
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            flex-grow: 1;
+        }
+
+        /* Header Styling */
+        header {
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        header .last-updated {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        
+        /* Section Styling */
+        section {
+            margin-bottom: 40px;
+        }
+
+        section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        /* Paragraph and List Styling */
+        p {
+            margin-bottom: 16px;
+            color: var(--text-muted);
+        }
+
+        ul, ol {
+            margin-bottom: 24px;
+            padding-left: 24px;
+            color: var(--text-muted);
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        li::marker {
+            color: var(--brand-primary);
+        }
+
+        /* Inline Code & Emphasis */
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 3px 6px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            border: 1px solid var(--border);
+        }
+
+        strong, b { 
+            font-weight: 600; 
+            color: var(--text-main);
+        }
+
+        .highlight-emphasis { 
+            color: var(--highlight);
+            font-weight: 700;
+        }
+
+        /* Links */
+        a {
+            color: var(--brand-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        a:hover, a:focus {
+            color: var(--brand-hover);
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            background-color: var(--bg-surface);
+        }
+
+        footer p {
+            margin: 4px 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container { 
+                margin: 0; 
+                padding: 30px 20px; 
+                border-radius: 0; 
+                border-left: none; 
+                border-right: none; 
+            }
+            header h1 { font-size: 1.8rem; }
+            section h2 { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="16 18 22 12 16 6"></polyline>
+                    <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+                Source Code Viewer
+            </a>
+            <div class="nav-links">
+                <a href="index.html">&larr; Back to Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>Privacy Policy</h1>
+            <p class="last-updated" id="updateDate">Last Updated: February 28, 2026</p>
+        </header>
+
+        <main>
+            <section id="introduction">
+                <p>This Privacy Policy describes how "Source Code Viewer" (the "Extension") handles information when you use it. Your privacy is important to us, and this policy aims to be fully transparent about our absolute commitment to local, client-side data processing.</p>
+            </section>
+
+            <section id="information-access">
+                <h2>1. Information We Access</h2>
+                <p>The Extension needs to access certain content from the web pages you visit to fulfill its core function. Specifically, when you activate the Extension on a webpage, it will access:</p>
+                <ul>
+                    <li>The HTML source code of the page.</li>
+                    <li>The URLs of external CSS and JavaScript files linked by the page.</li>
+                    <li>The content of these external CSS and JavaScript files.</li>
+                    <li>The content of inline CSS (inside <code>&lt;style&gt;</code> tags) and JavaScript (inside <code>&lt;script&gt;</code> tags) blocks.</li>
+                </ul>
+                <p>This information (collectively, "Website Content") is accessed <span class="highlight-emphasis">ONLY</span> when you explicitly click the Extension icon or interact with its UI to inspect the active page. The Extension does not access any information automatically or in the background without your direct interaction.</p>
+            </section>
+
+            <section id="how-we-use-information">
+                <h2>2. How We Use Accessed Information</h2>
+                <p>The Website Content accessed by the Extension is used <span class="highlight-emphasis">SOLELY</span> for the following purposes, all of which occur locally on your computer:</p>
+                <ul>
+                    <li>To display the HTML, CSS, and JavaScript source code within the Extension's popup interface.</li>
+                    <li>To display the source code in a dedicated, full-screen new tab viewer. The extracted code is temporarily cached in your browser's local storage (<code>chrome.storage.local</code>) to achieve this.</li>
+                    <li>To allow you to copy parts of this displayed code to your clipboard.</li>
+                    <li>To package the collected files into a natively generated <code>.zip</code> archive for you to download.</li>
+                </ul>
+                <p>The Extension explicitly <span class="highlight-emphasis">DOES NOT</span>:</p>
+                <ul>
+                    <li>Transmit this Website Content to any external server, API, or third party. All processing, zipping, and beautifying occur completely locally within your browser.</li>
+                    <li>Collect, store, or transmit any Personally Identifiable Information (PII). The Extension is designed to be entirely client-side and does not track individual users.</li>
+                    <li>Track your browsing history or user activity beyond the immediate interaction of fetching code for the active page when requested by you.</li>
+                </ul>
+            </section>
+
+            <section id="user-settings">
+                <h2>3. User Settings and Preferences</h2>
+                <p>To provide a personalized experience, the Extension allows you to customize its appearance. We use the <code>chrome.storage.sync</code> API to save your theme preferences.</p>
+                <ul>
+                    <li>This data consists only of your chosen theme name (e.g., "Dark", "Light") and any custom color codes you have set in the settings.</li>
+                    <li>This information is considered non-personal configuration data. It is used solely to remember your preferred look and feel.</li>
+                    <li>Using <code>chrome.storage.sync</code> allows your visual settings to be synchronized across different computers where you are logged into your Google account.</li>
+                </ul>
+            </section>
+
+            <section id="permissions">
+                <h2>4. Required Permissions</h2>
+                <p>The Extension requires the following permissions in Google Chrome (and similar Chromium-based browsers) to function properly:</p>
+                <ul>
+                    <li><strong><code>activeTab</code></strong>: Allows the Extension to run on the current page when you click the extension icon. It grants temporary access to the active tab only upon your explicit interaction.</li>
+                    <li><strong><code>scripting</code></strong>: Necessary to inject a content script into the active page to safely read the page's source code (HTML) and identify linked resources.</li>
+                    <li><strong><code>storage</code></strong>: Required to save your visual theme preferences (<code>chrome.storage.sync</code>) and to temporarily cache the source code data to pass it to the full-screen viewer (<code>chrome.storage.local</code>).</li>
+                    <li><strong><code>unlimitedStorage</code></strong>: Works alongside the storage permission. Because modern websites contain massive JavaScript and CSS bundles, this ensures the Extension has enough local memory allocation to cache the code without crashing.</li>
+                    <li><strong><code>host_permissions</code> (&lt;all_urls&gt;)</strong>: Required to allow the background service worker to fetch the content of external CSS and JavaScript files to bypass CORS limitations.</li>
+                </ul>
+            </section>
+
+            <section id="data-security">
+                <h2>5. Data Security</h2>
+                <p>Since no user data or website content is stored persistently by the Extension or transmitted externally, the security of your information relies entirely on the security measures of your own browser and computer system. The Extension operates within the strict, sandboxed environment provided by your browser.</p>
+            </section>
+
+            <section id="third-party-links">
+                <h2>6. Third-Party Links & Donations</h2>
+                <p>The Extension may contain links to external third-party websites, specifically for the purpose of voluntary donations (e.g., Cash App). Clicking these links will direct you to a website not operated by us.</p>
+                <p>Please be aware that:</p>
+                <ul>
+                    <li>We do not collect, process, or store any financial information.</li>
+                    <li>Any donation you choose to make is handled entirely by the third-party payment processor.</li>
+                    <li>We assume no responsibility for the content, privacy policies, or practices of any third-party sites.</li>
+                </ul>
+            </section>
+
+            <section id="policy-changes">
+                <h2>7. Changes to This Privacy Policy</h2>
+                <p>We may update this Privacy Policy from time to time. We will notify you of any significant changes by posting the new Privacy Policy on this page and updating the "Last Updated" date at the top. You are advised to review this Privacy Policy periodically for any changes.</p>
+            </section>
+
+            <section id="contact-us">
+                <h2>8. Contact Us</h2>
+                <p>If you have any questions, concerns, or feedback about this Privacy Policy, please reach out:</p>
+                <ul>
+                    <li><strong>Email:</strong> <a href="mailto:gokuthug833@gmail.com">gokuthug833@gmail.com</a></li>
+                    <li><strong>GitHub Issues:</strong> <a href="https://github.com/gokuthug1/scv/issues" target="_blank" rel="noopener noreferrer">Project Repository Issues</a></li>
+                </ul>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="currentYear">2026</span> Source Code Viewer. Open Source extension built for developers.</p>
+        <p>This Privacy Policy applies solely to the Source Code Viewer browser extension.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentYearSpan = document.getElementById('currentYear');
+            if (currentYearSpan) {
+                currentYearSpan.textContent = new Date().getFullYear();
+            }
+        });
+    </script>
+
+</body>
+</html>
