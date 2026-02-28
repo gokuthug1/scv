@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Source Code Viewer | Ultimate Chrome Extension</title>
+    <meta name="description" content="Displays and downloads the HTML, CSS, and JavaScript source code of the current page. Now with accurate file sizes and modern UI.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --brand-primary: #0ea5e9;
+            --brand-secondary: #3b82f6;
+            --brand-glow: rgba(14, 165, 233, 0.4);
+            --bg-base: #020617; 
+            --bg-surface: #0f172a; 
+            --bg-surface-elevated: #1e293b; 
+            --text-main: #f8fafc; 
+            --text-muted: #94a3b8; 
+            --border: rgba(255, 255, 255, 0.1);
+            
+            /* Editor Mockup Colors (From your themes.js) */
+            --ed-bg: #1e1e1e;
+            --ed-sec-bg: #252526;
+            --ed-ter-bg: #2d2d2d;
+            --ed-border: #3e3e42;
+            --ed-text: #cccccc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Background Effects */
+        .bg-glow {
+            position: absolute;
+            top: -10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100vw;
+            height: 800px;
+            background: radial-gradient(circle at 50% 30%, rgba(14, 165, 233, 0.15) 0%, rgba(2, 6, 23, 0) 60%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .nav-logo svg {
+            color: var(--brand-primary);
+        }
+
+        .badge {
+            background: rgba(14, 165, 233, 0.1);
+            color: var(--brand-primary);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid rgba(14, 165, 233, 0.2);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 0 60px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #38bdf8, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            color: white;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 10px 25px var(--brand-glow);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px var(--brand-glow);
+        }
+
+        /* Mockup UI */
+        .mockup-wrapper {
+            position: relative;
+            margin: 60px auto 100px;
+            max-width: 1000px;
+            border-radius: 12px;
+            padding: 1px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+
+        .mockup-window {
+            background-color: var(--ed-bg);
+            border-radius: 11px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--ed-border);
+        }
+
+        .mockup-header {
+            height: 48px;
+            background-color: var(--ed-sec-bg);
+            border-bottom: 1px solid var(--ed-border);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            gap: 16px;
+        }
+
+        .mac-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .mac-dots div {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+
+        .mockup-title {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            color: #858585;
+            font-weight: 500;
+            margin-left: auto;
+            margin-right: auto;
+            padding-right: 60px; /* Offset to center */
+        }
+
+        .mockup-body {
+            display: flex;
+            height: 400px;
+        }
+
+        .mockup-sidebar {
+            width: 220px;
+            background-color: var(--ed-sec-bg);
+            border-right: 1px solid var(--ed-border);
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .mockup-file {
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: #858585;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .mockup-file.active {
+            background-color: var(--brand-primary);
+            color: white;
+        }
+
+        .mockup-tag {
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .tag-html { background: rgba(249, 115, 22, 0.15); color: #f97316; }
+        .tag-css { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+        .active .tag-html, .active .tag-css { background: rgba(255,255,255,0.2); color: white; }
+
+        .mockup-editor {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: var(--ed-bg);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--ed-text);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .mockup-toolbar {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .mockup-btn {
+            background-color: var(--ed-ter-bg);
+            border: 1px solid var(--ed-border);
+            color: var(--ed-text);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Syntax Highlighting */
+        .tk-tag { color: #569cd6; }
+        .tk-attr { color: #9cdcfe; }
+        .tk-str { color: #ce9178; }
+        .tk-comment { color: #6a9955; font-style: italic; }
+
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            border-top: 1px solid var(--border);
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 60px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: var(--bg-surface-elevated);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background: rgba(14, 165, 233, 0.1);
+            color: var(--brand-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .feature-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Footer & CTA */
+        .cta-section {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg-base) 0%, var(--bg-surface) 100%);
+            border-top: 1px solid var(--border);
+        }
+
+        .donation-box {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+            background: var(--bg-surface-elevated);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            margin-top: 40px;
+        }
+
+        .btn-cashapp {
+            background: #00D632;
+            color: white;
+            text-decoration: none;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 16px;
+            transition: transform 0.2s;
+        }
+
+        .btn-cashapp:hover {
+            transform: scale(1.05);
+        }
+
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--brand-primary);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1rem; }
+            .mockup-body { flex-direction: column; height: auto; }
+            .mockup-sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--ed-border); }
+            .mockup-editor { height: 300px; overflow-y: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow"></div>
+
+    <div class="container">
+        <!-- Navigation -->
+        <nav>
+            <a href="#" class="nav-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="16 18 22 12 16 6"></polyline>
+                    <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+                Source Code Viewer
+                <span class="badge">v7.9</span>
+            </a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="https://github.com/gokuthug1/scv" target="_blank">GitHub</a>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <header class="hero">
+            <h1>The ultimate <span class="text-gradient">source code</span> viewer.</h1>
+            <p>Instantly view, analyze, format, and download the complete HTML, CSS, and JavaScript of any website. No external servers, no tracking—just pure native performance.</p>
+            
+            <a href="https://chromewebstore.google.com/" target="_blank" class="btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <circle cx="12" cy="12" r="4"></circle>
+                    <line x1="21.17" y1="8" x2="12" y2="8"></line>
+                    <line x1="3.95" y1="6.06" x2="8.54" y2="14"></line>
+                    <line x1="10.88" y1="21.94" x2="15.46" y2="14"></line>
+                </svg>
+                Add to Chrome — It's Free
+            </a>
+        </header>
+
+        <!-- Mockup Visual -->
+        <div class="mockup-wrapper">
+            <div class="mockup-window">
+                <div class="mockup-header">
+                    <div class="mac-dots">
+                        <div class="dot-red"></div>
+                        <div class="dot-yellow"></div>
+                        <div class="dot-green"></div>
+                    </div>
+                    <div class="mockup-title">viewer.html - Source Code Viewer</div>
+                </div>
+                <div class="mockup-body">
+                    <div class="mockup-sidebar">
+                        <div class="mockup-file active">
+                            <span class="mockup-tag tag-html">HTML</span> index.html
+                        </div>
+                        <div class="mockup-file">
+                            <span class="mockup-tag tag-css">CSS</span> styles.css
+                        </div>
+                        <div class="mockup-file">
+                            <span class="mockup-tag tag-css">CSS</span> inline-1.css
+                        </div>
+                    </div>
+                    <div class="mockup-editor">
+                        <div class="mockup-toolbar">
+                            <div class="mockup-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72z"></path><line x1="14" y1="7" x2="17" y2="10"></line></svg>
+                                Beautify
+                            </div>
+                            <div class="mockup-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                Download .zip
+                            </div>
+                        </div>
+<pre><code><span class="tk-comment">&lt;!-- Extracted by Source Code Viewer --&gt;</span>
+<span class="tk-tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tk-tag">&lt;html</span> <span class="tk-attr">lang</span>=<span class="tk-str">"en"</span><span class="tk-tag">&gt;</span>
+<span class="tk-tag">&lt;head&gt;</span>
+    <span class="tk-tag">&lt;meta</span> <span class="tk-attr">charset</span>=<span class="tk-str">"UTF-8"</span><span class="tk-tag">&gt;</span>
+    <span class="tk-tag">&lt;title&gt;</span>Hello Developer<span class="tk-tag">&lt;/title&gt;</span>
+    <span class="tk-tag">&lt;link</span> <span class="tk-attr">rel</span>=<span class="tk-str">"stylesheet"</span> <span class="tk-attr">href</span>=<span class="tk-str">"styles.css"</span><span class="tk-tag">&gt;</span>
+<span class="tk-tag">&lt;/head&gt;</span>
+<span class="tk-tag">&lt;body&gt;</span>
+    <span class="tk-tag">&lt;h1&gt;</span>Un-minify anything.<span class="tk-tag">&lt;/h1&gt;</span>
+<span class="tk-tag">&lt;/body&gt;</span>
+<span class="tk-tag">&lt;/html&gt;</span></code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <section id="features" class="features">
+            <h2 class="section-title">Built for modern web developers.</h2>
+            <div class="features-grid">
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    </div>
+                    <h3>Deep Resource Extraction</h3>
+                    <p>Goes beyond initial HTML. Fetches and downloads all linked external CSS stylesheets and JS files, completely bypassing CORS blocks.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72z"></path><line x1="14" y1="7" x2="17" y2="10"></line></svg>
+                    </div>
+                    <h3>Native Code Beautifier</h3>
+                    <p>Tired of unreadable minified code? Instantly un-minify and format HTML, CSS, and JS using a lightning-fast, zero-dependency formatter.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    </div>
+                    <h3>Download Full Source</h3>
+                    <p>Click one button to generate a structured <code>.zip</code> archive of the entire webpage's assets directly to your local desktop.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
+                    </div>
+                    <h3>Interactive Highlighting</h3>
+                    <p>Experience syntax highlighting tailored for the web. All URLs found within the extracted code are automatically formatted and clickable.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-6M6 20V10M18 20V4"></path></svg>
+                    </div>
+                    <h3>Customizable Themes</h3>
+                    <p>Switch between Dark Mode and Light Mode, or use the integrated settings menu to create a 100% custom syntax highlighting color palette.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    </div>
+                    <h3>100% Local & Private</h3>
+                    <p>Absolute respect for your privacy. All code extraction, formatting, and ZIP generation happens locally. No tracking, no remote servers.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="cta-section">
+            <h2>Ready to inspect the web?</h2>
+            <p style="color: var(--text-muted); margin: 16px 0 32px;">Join developers worldwide who use Source Code Viewer to audit and learn from web sources.</p>
+            <a href="https://chromewebstore.google.com/detail/source-code-viewer/jfcfmlcbjaloijgkjhfkfioonngengnm" target="_blank" class="btn-primary">
+                Install Extension
+            </a>
+
+            <div style="width: 100%;"></div>
+
+            <div class="donation-box">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #00D632; margin-bottom: 12px;">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+                <h3>Support Development</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">Enjoying the extension? Consider buying me a coffee.</p>
+                <a href="https://cash.app/$gokuthug1" target="_blank" class="btn-cashapp">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                    $gokuthug1
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2026 Source Code Viewer by <a href="https://github.com/gokuthug1" target="_blank">gokuthug1</a>. Open Source extension built for developers.</p>
+        </footer>
+    </div>
+
+</body>
+</html>
