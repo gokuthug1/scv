@@ -4,52 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy | Source Code Viewer</title>
-     <link rel="icon" type="image/png" href="v.png">
+    <link rel="icon" type="image/png" href="images/v.png">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* Light Theme Variables (Default) */
+            /* Light Theme Variables */
             --bg-base: #f8fafc;
             --bg-surface: #ffffff;
+            --bg-surface-secondary: #f1f5f9;
             --text-main: #0f172a;
-            --text-muted: #64748b;
-            --brand-primary: #0ea5e9;
-            --brand-hover: #0284c7;
+            --text-muted: #475569;
+            --text-subtle: #64748b;
+            --brand-primary: #0284c7;
+            --brand-hover: #0369a1;
+            --brand-subtle: rgba(2, 132, 199, 0.08);
             --border: #e2e8f0;
-            --code-bg: #f1f5f9;
+            --border-hover: #cbd5e1;
+            --code-bg: #f8fafc;
             --code-text: #0f172a;
-            --highlight: #ef4444;
+            --badge-bg: #e0f2fe;
+            --badge-text: #0369a1;
+            --badge-border: #bae6fd;
+            --callout-bg: #f0fdf4;
+            --callout-border: #bbf7d0;
+            --callout-text: #166534;
+            --focus-ring: rgba(2, 132, 199, 0.35);
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
                 /* Dark Theme Variables */
-                --bg-base: #020617;
-                --bg-surface: #0f172a;
-                --text-main: #f8fafc;
-                --text-muted: #94a3b8;
+                --bg-base: #0b0f19;
+                --bg-surface: #111827;
+                --bg-surface-secondary: #1f2937;
+                --text-main: #f9fafb;
+                --text-muted: #d1d5db;
+                --text-subtle: #9ca3af;
                 --brand-primary: #38bdf8;
                 --brand-hover: #7dd3fc;
-                --border: #1e293b;
-                --code-bg: #1e293b;
-                --code-text: #e2e8f0;
-                --highlight: #f87171;
+                --brand-subtle: rgba(56, 189, 248, 0.1);
+                --border: #374151;
+                --border-hover: #4b5563;
+                --code-bg: #1f2937;
+                --code-text: #f3f4f6;
+                --badge-bg: rgba(56, 189, 248, 0.12);
+                --badge-text: #7dd3fc;
+                --badge-border: rgba(56, 189, 248, 0.3);
+                --callout-bg: rgba(16, 185, 129, 0.08);
+                --callout-border: rgba(16, 185, 129, 0.25);
+                --callout-text: #6ee7b7;
+                --focus-ring: rgba(56, 189, 248, 0.4);
             }
         }
 
-        * {
+        *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             line-height: 1.7;
             background-color: var(--bg-base);
             color: var(--text-main);
@@ -57,20 +77,21 @@
             flex-direction: column;
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         /* Navigation */
         nav {
             background-color: var(--bg-surface);
             border-bottom: 1px solid var(--border);
-            padding: 16px 24px;
+            padding: 14px 24px;
             position: sticky;
             top: 0;
             z-index: 100;
         }
 
         .nav-container {
-            max-width: 800px;
+            max-width: 860px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -82,112 +103,225 @@
             align-items: center;
             gap: 10px;
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: var(--text-main);
             text-decoration: none;
+            outline: none;
+        }
+
+        .nav-logo:focus-visible {
+            box-shadow: 0 0 0 3px var(--focus-ring);
+            border-radius: 4px;
         }
 
         .nav-logo svg {
             color: var(--brand-primary);
+            flex-shrink: 0;
         }
 
         .nav-links a {
-            color: var(--text-muted);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-subtle);
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 500;
-            transition: color 0.2s;
+            transition: color 0.15s ease;
+            outline: none;
         }
 
-        .nav-links a:hover {
+        .nav-links a:hover,
+        .nav-links a:focus-visible {
             color: var(--brand-primary);
         }
 
-        /* Main Content Container */
+        .nav-links a:focus-visible {
+            box-shadow: 0 0 0 2px var(--focus-ring);
+            border-radius: 4px;
+        }
+
+        /* Container */
         .container {
             width: 100%;
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 40px;
+            max-width: 860px;
+            margin: 36px auto;
+            padding: 44px;
             background-color: var(--bg-surface);
             border: 1px solid var(--border);
             border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
             flex-grow: 1;
         }
 
-        /* Header Styling */
+        /* Header */
         header {
-            margin-bottom: 40px;
+            margin-bottom: 36px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .badge-header {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            background-color: var(--badge-bg);
+            color: var(--badge-text);
+            border: 1px solid var(--badge-border);
+            margin-bottom: 14px;
         }
 
         header h1 {
             font-size: 2.25rem;
             font-weight: 800;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.025em;
             margin-bottom: 8px;
             color: var(--text-main);
+            line-height: 1.25;
         }
 
         header .last-updated {
-            font-size: 0.95rem;
-            color: var(--text-muted);
+            font-size: 0.9rem;
+            color: var(--text-subtle);
             font-weight: 500;
         }
-        
+
+        /* Callout Box */
+        .callout-card {
+            background-color: var(--callout-bg);
+            border: 1px solid var(--callout-border);
+            color: var(--callout-text);
+            border-radius: 8px;
+            padding: 18px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+
+        .callout-card svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
         /* Section Styling */
         section {
-            margin-bottom: 40px;
+            margin-bottom: 36px;
         }
 
         section h2 {
-            font-size: 1.5rem;
+            font-size: 1.35rem;
             font-weight: 700;
             color: var(--text-main);
             margin-bottom: 16px;
             padding-bottom: 8px;
             border-bottom: 1px solid var(--border);
+            letter-spacing: -0.015em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        
-        /* Paragraph and List Styling */
+
+        section h3 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin: 20px 0 10px 0;
+        }
+
         p {
             margin-bottom: 16px;
             color: var(--text-muted);
+            font-size: 0.95rem;
         }
 
         ul, ol {
-            margin-bottom: 24px;
-            padding-left: 24px;
+            margin-bottom: 20px;
+            padding-left: 22px;
             color: var(--text-muted);
+            font-size: 0.95rem;
         }
 
         li {
             margin-bottom: 8px;
         }
 
-        li::marker {
-            color: var(--brand-primary);
+        li strong {
+            color: var(--text-main);
         }
 
-        /* Inline Code & Emphasis */
+        /* Permissions Table */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 20px 0 28px 0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+            text-align: left;
+        }
+
+        thead {
+            background-color: var(--bg-surface-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            padding: 12px 16px;
+            font-weight: 600;
+            color: var(--text-main);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-muted);
+            vertical-align: top;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .perm-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--brand-primary);
+            background-color: var(--brand-subtle);
+            padding: 3px 6px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        /* Inline Code */
         code {
             font-family: 'JetBrains Mono', monospace;
             background-color: var(--code-bg);
             color: var(--code-text);
-            padding: 3px 6px;
-            border-radius: 6px;
-            font-size: 0.85em;
+            padding: 2px 6px;
+            border-radius: 5px;
+            font-size: 0.84em;
             border: 1px solid var(--border);
         }
 
-        strong, b { 
+        strong { 
             font-weight: 600; 
             color: var(--text-main);
-        }
-
-        .highlight-emphasis { 
-            color: var(--highlight);
-            font-weight: 700;
         }
 
         /* Links */
@@ -195,168 +329,244 @@
             color: var(--brand-primary);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.2s;
+            transition: color 0.15s ease;
+            outline: none;
         }
 
-        a:hover, a:focus {
+        a:hover {
             color: var(--brand-hover);
             text-decoration: underline;
-            text-underline-offset: 4px;
+            text-underline-offset: 3px;
+        }
+
+        a:focus-visible {
+            box-shadow: 0 0 0 2px var(--focus-ring);
+            border-radius: 3px;
         }
 
         /* Footer */
         footer {
             text-align: center;
-            padding: 30px 20px;
+            padding: 32px 20px;
             border-top: 1px solid var(--border);
-            color: var(--text-muted);
-            font-size: 0.9rem;
+            color: var(--text-subtle);
+            font-size: 0.88rem;
             background-color: var(--bg-surface);
         }
 
         footer p {
             margin: 4px 0;
+            color: inherit;
         }
 
-        /* Responsive */
+        /* Responsive Breakpoints */
         @media (max-width: 768px) {
             .container { 
                 margin: 0; 
-                padding: 30px 20px; 
+                padding: 24px 16px; 
                 border-radius: 0; 
                 border-left: none; 
                 border-right: none; 
             }
-            header h1 { font-size: 1.8rem; }
-            section h2 { font-size: 1.3rem; }
+            header h1 { font-size: 1.75rem; }
+            section h2 { font-size: 1.2rem; }
+            nav { padding: 12px 16px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Navigation Bar -->
-    <nav>
+    <!-- Header Navigation -->
+    <nav aria-label="Main Navigation">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <a href="https://sites.google.com/view/source-code-viewer" class="nav-logo" aria-label="Source Code Viewer Homepage">
+                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="16 18 22 12 16 6"></polyline>
                     <polyline points="8 6 2 12 8 18"></polyline>
                 </svg>
-                Source Code Viewer
+                <span>Source Code Viewer</span>
             </a>
             <div class="nav-links">
-                <a href="index.html">&larr; Back to Home</a>
+                <a href="https://github.com/gokuthug1/scv" target="_blank" rel="noopener noreferrer">
+                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                    </svg>
+                    <span>GitHub Repository</span>
+                </a>
             </div>
         </div>
     </nav>
 
     <div class="container">
         <header>
+            <div class="badge-header">
+                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                <span>Manifest V3 Certified &bull; Zero Telemetry</span>
+            </div>
             <h1>Privacy Policy</h1>
-            <p class="last-updated" id="updateDate">Last Updated: February 28, 2026</p>
+            <p class="last-updated">Last Updated: August 2026 &bull; Codebase Version: 10.4</p>
         </header>
 
         <main>
-            <section id="introduction">
-                <p>This Privacy Policy describes how "Source Code Viewer" (the "Extension") handles information when you use it. Your privacy is important to us, and this policy aims to be fully transparent about our absolute commitment to local, client-side data processing.</p>
-            </section>
+            <!-- Core Summary Callout -->
+            <div class="callout-card" role="region" aria-label="Privacy Summary">
+                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                <div>
+                    <strong>100% Local In-Browser Processing:</strong> Source Code Viewer does not collect, store, transmit, or monetize your personal data or browsing activity. All source code extraction, syntax highlighting, secret scanning, source map reconstruction, and ZIP file generation happen entirely on your computer inside your browser's local sandbox.
+                </div>
+            </div>
 
-            <section id="information-access">
-                <h2>1. Information We Access</h2>
-                <p>The Extension needs to access certain content from the web pages you visit to fulfill its core function. Specifically, when you activate the Extension on a webpage, it will access:</p>
+            <section id="zero-data-collection">
+                <h2>1. Zero Telemetry & Data Collection Policy</h2>
+                <p>Source Code Viewer is engineered from the ground up as an offline-capable developer utility. We adhere strictly to the principle of data minimization:</p>
                 <ul>
-                    <li>The HTML source code of the page.</li>
-                    <li>The URLs of external CSS and JavaScript files linked by the page.</li>
-                    <li>The content of these external CSS and JavaScript files.</li>
-                    <li>The content of inline CSS (inside <code>&lt;style&gt;</code> tags) and JavaScript (inside <code>&lt;script&gt;</code> tags) blocks.</li>
-                </ul>
-                <p>This information (collectively, "Website Content") is accessed <span class="highlight-emphasis">ONLY</span> when you explicitly click the Extension icon or interact with its UI to inspect the active page. The Extension does not access any information automatically or in the background without your direct interaction.</p>
-            </section>
-
-            <section id="how-we-use-information">
-                <h2>2. How We Use Accessed Information</h2>
-                <p>The Website Content accessed by the Extension is used <span class="highlight-emphasis">SOLELY</span> for the following purposes, all of which occur locally on your computer:</p>
-                <ul>
-                    <li>To display the HTML, CSS, and JavaScript source code within the Extension's popup interface.</li>
-                    <li>To display the source code in a dedicated, full-screen new tab viewer. The extracted code is temporarily cached in your browser's local storage (<code>chrome.storage.local</code>) to achieve this.</li>
-                    <li>To allow you to copy parts of this displayed code to your clipboard.</li>
-                    <li>To package the collected files into a natively generated <code>.zip</code> archive for you to download.</li>
-                </ul>
-                <p>The Extension explicitly <span class="highlight-emphasis">DOES NOT</span>:</p>
-                <ul>
-                    <li>Transmit this Website Content to any external server, API, or third party. All processing, zipping, and beautifying occur completely locally within your browser.</li>
-                    <li>Collect, store, or transmit any Personally Identifiable Information (PII). The Extension is designed to be entirely client-side and does not track individual users.</li>
-                    <li>Track your browsing history or user activity beyond the immediate interaction of fetching code for the active page when requested by you.</li>
+                    <li><strong>No Tracking Scripts:</strong> The Extension contains zero telemetry SDKs, zero analytics scripts (such as Google Analytics, Segment, or Mixpanel), and zero tracking pixels.</li>
+                    <li><strong>No Personal Identifiers:</strong> We do not collect, read, or request names, email addresses, phone numbers, IP addresses, geolocation data, or hardware identifiers.</li>
+                    <li><strong>No Browsing History Recording:</strong> We do not log, retain, or transmit lists of URLs visited, search histories, or session timestamps.</li>
+                    <li><strong>No Sale of Data:</strong> We do not sell, rent, license, or transfer user information or website content to data brokers, ad networks, or third parties under any circumstance.</li>
                 </ul>
             </section>
 
-            <section id="user-settings">
-                <h2>3. User Settings and Preferences</h2>
-                <p>To provide a personalized experience, the Extension allows you to customize its appearance. We use the <code>chrome.storage.sync</code> API to save your theme preferences.</p>
+            <section id="information-accessed">
+                <h2>2. Website Content Accessed & Scope of Processing</h2>
+                <p>To inspect, format, and audit client-side web assets, the Extension accesses client-side files ephemerally from the web page currently loaded in your browser tab. Access is triggered <strong>only</strong> when you deliberately invoke the Extension (by clicking the toolbar action, opening the Side Panel, or clicking a context menu command):</p>
                 <ul>
-                    <li>This data consists only of your chosen theme name (e.g., "Dark", "Light") and any custom color codes you have set in the settings.</li>
-                    <li>This information is considered non-personal configuration data. It is used solely to remember your preferred look and feel.</li>
-                    <li>Using <code>chrome.storage.sync</code> allows your visual settings to be synchronized across different computers where you are logged into your Google account.</li>
+                    <li><strong>DOM Markup & Documents:</strong> Rendered client-side HTML DOM trees and document metadata.</li>
+                    <li><strong>Stylesheets:</strong> Linked external stylesheets (<code>&lt;link rel="stylesheet"&gt;</code>), inline style blocks (<code>&lt;style&gt;</code>), and encapsulated Shadow DOM styling.</li>
+                    <li><strong>Scripts:</strong> Linked external script files (<code>&lt;script src="..."&gt;</code>), dynamic JavaScript chunks, and inline script tags.</li>
+                    <li><strong>Media & Binary References:</strong> Image sources (<code>&lt;img&gt;</code>), audio/video tags, fonts, and linked web application manifests.</li>
+                    <li><strong>Source Maps:</strong> Publicly exposed source map files (<code>.map</code>) referenced by scripts or stylesheets, used exclusively to unbundle original development file trees for inspection.</li>
+                    <li><strong>Browser Storage Dump (Inspection Feature):</strong> When inspecting a page, readable client-side <code>localStorage</code>, <code>sessionStorage</code>, and active document cookies are structured into a downloadable <code>state.json</code> snapshot for debugging purposes.</li>
+                </ul>
+                <p><strong>Ephemeral Processing Guarantee:</strong> All extraction, lexical tokenization, regex-based secret scanning, CSS coverage analysis, and beautification are computed in local browser memory and dedicated client-side Web Workers (<code>js/worker.js</code>). No website content is ever transmitted to an external server or proxy.</p>
+            </section>
+
+            <section id="local-storage">
+                <h2>3. Local Storage, Caching, and IndexedDB</h2>
+                <p>The Extension uses native browser storage APIs exclusively on your machine for session state and offline persistence:</p>
+                <ul>
+                    <li><strong><code>chrome.storage.local</code>:</strong> Temporarily holds serialized source data snapshots when passing inspected files between the extension popup, background service worker, and full-screen viewer tabs. These transient entries are automatically cleared once consumed.</li>
+                    <li><strong>IndexedDB (<code>SourceCodeViewerDB</code>):</strong> An isolated browser database that stores local code sessions, uncompressed binary assets (images, fonts), and reference snapshots for the local Diff Snapshot feature. Cached sessions in IndexedDB are automatically pruned after 2 hours of inactivity.</li>
+                    <li><strong><code>chrome.storage.sync</code>:</strong> Stores non-personal configuration preferences (e.g. selected UI theme, line counter toggles, window mode, custom CSS overrides). This configuration is automatically synced by Chrome to your signed-in browser profile.</li>
                 </ul>
             </section>
 
-            <section id="permissions">
-                <h2>4. Required Permissions</h2>
-                <p>The Extension requires the following permissions in Google Chrome (and similar Chromium-based browsers) to function properly:</p>
+            <section id="third-party-exports">
+                <h2>4. User-Initiated Third-Party Cloud Exports (Optional)</h2>
+                <p>The Extension contains optional cloud and IDE export integrations designed to help developers test code snippets. <strong>These exports are entirely manual and never execute automatically.</strong></p>
+                <p>When you explicitly click an export button, only the code snippets currently open are packaged and forwarded directly to the selected service under your control:</p>
                 <ul>
-                    <li><strong><code>activeTab</code></strong>: Allows the Extension to run on the current page when you click the extension icon. It grants temporary access to the active tab only upon your explicit interaction.</li>
-                    <li><strong><code>scripting</code></strong>: Necessary to inject a content script into the active page to safely read the page's source code (HTML) and identify linked resources.</li>
-                    <li><strong><code>storage</code></strong>: Required to save your visual theme preferences (<code>chrome.storage.sync</code>) and to temporarily cache the source code data to pass it to the full-screen viewer (<code>chrome.storage.local</code>).</li>
-                    <li><strong><code>unlimitedStorage</code></strong>: Works alongside the storage permission. Because modern websites contain massive JavaScript and CSS bundles, this ensures the Extension has enough local memory allocation to cache the code without crashing.</li>
-                    <li><strong><code>host_permissions</code> (&lt;all_urls&gt;)</strong>: Required to allow the background service worker to fetch the content of external CSS and JavaScript files to bypass CORS limitations.</li>
+                    <li><strong>VS Code Desktop:</strong> Packages an organized project archive (<code>.zip</code>) locally to your disk and initiates a local protocol handler (<code>vscode://file/...</code>).</li>
+                    <li><strong>VS Code for Web (vscode.dev):</strong> Navigates to official GitHub-hosted repository links on <code>vscode.dev</code>.</li>
+                    <li><strong>CodePen / JSFiddle / StackBlitz:</strong> Transmits an explicit HTTP POST form containing your selected HTML, CSS, and JS to the respective platform in a new browser tab.</li>
+                    <li><strong>GitHub Gist Export & Personal Access Tokens (PAT):</strong> If you choose to export snapshots to GitHub Gists, you may supply a GitHub Personal Access Token in Settings. This token is saved exclusively in your browser's secure <code>chrome.storage.sync</code> area. It is transmitted solely over encrypted HTTPS directly to GitHub's official API (<code>https://api.github.com/gists</code>) when creating your requested Gist.</li>
                 </ul>
             </section>
 
-            <section id="data-security">
-                <h2>5. Data Security</h2>
-                <p>Since no user data or website content is stored persistently by the Extension or transmitted externally, the security of your information relies entirely on the security measures of your own browser and computer system. The Extension operates within the strict, sandboxed environment provided by your browser.</p>
+            <section id="permissions-table">
+                <h2>5. Chrome Permissions Justifications</h2>
+                <p>Under Google Chrome's Manifest V3 standard, the Extension declares permissions strictly required for its single purpose as a developer inspection and export tool:</p>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th scope="col">Permission</th>
+                                <th scope="col">Technical Justification</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="perm-tag">activeTab</span></td>
+                                <td>Grants temporary, user-invoked access to inspect the active browser tab when you click the extension icon or context menu item.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="perm-tag">scripting</span></td>
+                                <td>Executes the local content extraction bridge (<code>js/content-bridge.js</code>) inside the web page context to read rendered DOM elements, stylesheets, and scripts without altering page behavior.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="perm-tag">storage</span></td>
+                                <td>Saves user theme preferences, custom CSS overrides, display configurations in <code>chrome.storage.sync</code>, and transfers extraction sessions via <code>chrome.storage.local</code>.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="perm-tag">downloads</span></td>
+                                <td>Enables users to download individual extracted source files, unbundled source maps, and complete website asset ZIP archives to local disk.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="perm-tag">contextMenus</span></td>
+                                <td>Registers quick right-click shortcuts ("Open Source Code Viewer", "Open in Side Panel", "Settings") for developer convenience.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="perm-tag">unlimitedStorage</span></td>
+                                <td>Prevents browser quota errors in IndexedDB (<code>SCVDB</code>) and local cache when extracting large single-page applications or complex source map directory trees.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="perm-tag">tabs</span></td>
+                                <td>Opens the full-screen viewer and options pages in dedicated browser tabs and captures the active tab title and URL to name downloaded archives accurately.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="perm-tag">sidePanel</span></td>
+                                <td>Enables docking the source code viewer directly into Chrome's native Side Panel for simultaneous side-by-side inspection while browsing.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="perm-tag">&lt;all_urls&gt;</span><br><small>(Host Permission)</small></td>
+                                <td>Allows the background service worker to fetch external stylesheets, scripts, remote source maps, and binary assets referenced across diverse third-party CDNs and domains that would otherwise be blocked by page-level CORS restrictions.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
-            <section id="third-party-links">
-                <h2>6. Third-Party Links & Donations</h2>
-                <p>The Extension may contain links to external third-party websites, specifically for the purpose of voluntary donations (e.g., Cash App). Clicking these links will direct you to a website not operated by us.</p>
-                <p>Please be aware that:</p>
+            <section id="remote-code">
+                <h2>6. Remote Code Declaration</h2>
+                <p>Source Code Viewer complies strictly with Chrome Web Store policies prohibiting remote code execution:</p>
                 <ul>
-                    <li>We do not collect, process, or store any financial information.</li>
-                    <li>Any donation you choose to make is handled entirely by the third-party payment processor.</li>
-                    <li>We assume no responsibility for the content, privacy policies, or practices of any third-party sites.</li>
+                    <li>All JavaScript (including parsers, formatters, lexers, and scanners), CSS stylesheets, HTML files, and graphic assets are <strong>100% packaged locally</strong> within the extension CRX package.</li>
+                    <li>The Extension does not execute dynamic code via <code>eval()</code> or <code>new Function()</code>.</li>
+                    <li>No scripts, stylesheets, or dependencies are loaded from external CDNs, remote endpoints, or third-party cloud buckets.</li>
                 </ul>
+            </section>
+
+            <section id="voluntary-donations">
+                <h2>7. Voluntary Donations & Third-Party Links</h2>
+                <p>The Extension contains optional links to external developer support pages (e.g. Cash App). Clicking these links navigates you to an external payment processor in a standard browser tab. Source Code Viewer does not collect, handle, or store credit card numbers, bank accounts, or financial transaction details.</p>
+                <p>If you prefer not to see donation links, you can hide them entirely in the Extension Settings by enabling the <strong>Hide Donation Links</strong> option.</p>
             </section>
 
             <section id="policy-changes">
-                <h2>7. Changes to This Privacy Policy</h2>
-                <p>We may update this Privacy Policy from time to time. We will notify you of any significant changes by posting the new Privacy Policy on this page and updating the "Last Updated" date at the top. You are advised to review this Privacy Policy periodically for any changes.</p>
+                <h2>8. Updates to This Privacy Policy</h2>
+                <p>We may update this Privacy Policy periodically to reflect new browser capabilities, Chrome Web Store policy updates, or version releases. Any revisions will be published to this URL with an updated revision date at the top of the document.</p>
             </section>
 
-            <section id="contact-us">
-                <h2>8. Contact Us</h2>
-                <p>If you have any questions, concerns, or feedback about this Privacy Policy, please reach out:</p>
+            <section id="contact">
+                <h2>9. Inquiries and Open Source Verification</h2>
+                <p>Source Code Viewer is transparent and open-source. Developers and security auditors are welcome to review the codebase, report vulnerabilities, or submit inquiries:</p>
                 <ul>
-                    <li><strong>Email:</strong> <a href="mailto:gokuthug833@gmail.com">gokuthug833@gmail.com</a></li>
-                    <li><strong>GitHub Issues:</strong> <a href="https://github.com/gokuthug1/scv/issues" target="_blank" rel="noopener noreferrer">Project Repository Issues</a></li>
+                    <li><strong>GitHub Issues Tracker:</strong> <a href="https://github.com/gokuthug1/scv/issues" target="_blank" rel="noopener noreferrer">https://github.com/gokuthug1/scv/issues</a></li>
+                    <li><strong>Developer Contact Email:</strong> <a href="mailto:gokuthug833@gmail.com">gokuthug833@gmail.com</a></li>
+                    <li><strong>Official Extension Listing:</strong> <a href="https://chromewebstore.google.com/detail/jfcfmlcbjaloijgkjhfkfioonngengnm" target="_blank" rel="noopener noreferrer">Source Code Viewer on Chrome Web Store</a></li>
                 </ul>
             </section>
         </main>
     </div>
 
     <footer>
-        <p>&copy; <span id="currentYear">2026</span> Source Code Viewer. Open Source extension built for developers.</p>
-        <p>This Privacy Policy applies solely to the Source Code Viewer browser extension.</p>
+        <p>&copy; <span id="currentYear">2026</span> Source Code Viewer. Open-source client-side developer tooling.</p>
+        <p>This privacy document applies exclusively to the Source Code Viewer extension (ID: <code>jfcfmlcbjaloijgkjhfkfioonngengnm</code>).</p>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const currentYearSpan = document.getElementById('currentYear');
-            if (currentYearSpan) {
-                currentYearSpan.textContent = new Date().getFullYear();
+            const yearEl = document.getElementById('currentYear');
+            if (yearEl) {
+                yearEl.textContent = new Date().getFullYear();
             }
         });
     </script>
-
 </body>
 </html>
