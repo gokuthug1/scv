@@ -1,605 +1,684 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Source Code Viewer | Ultimate Chrome Extension</title>
-    <link rel="icon" type="image/png" href="v.png">
-    <meta name="description" content="Displays and downloads the HTML, CSS, and JavaScript source code of the current page. Now with accurate file sizes and modern UI.">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --brand-primary: #0ea5e9;
-            --brand-secondary: #3b82f6;
-            --brand-glow: rgba(14, 165, 233, 0.4);
-            --bg-base: #020617; 
-            --bg-surface: #0f172a; 
-            --bg-surface-elevated: #1e293b; 
-            --text-main: #f8fafc; 
-            --text-muted: #94a3b8; 
-            --border: rgba(255, 255, 255, 0.1);
-            
-            /* Editor Mockup Colors (From your themes.js) */
-            --ed-bg: #1e1e1e;
-            --ed-sec-bg: #252526;
-            --ed-ter-bg: #2d2d2d;
-            --ed-border: #3e3e42;
-            --ed-text: #cccccc;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-base);
-            color: var(--text-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Background Effects */
-        .bg-glow {
-            position: absolute;
-            top: -10%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100vw;
-            height: 800px;
-            background: radial-gradient(circle at 50% 30%, rgba(14, 165, 233, 0.15) 0%, rgba(2, 6, 23, 0) 60%);
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* Navigation */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 24px 0;
-            position: relative;
-            z-index: 10;
-        }
-
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--text-main);
-            text-decoration: none;
-        }
-
-        .nav-logo svg {
-            color: var(--brand-primary);
-        }
-
-        .badge {
-            background: rgba(14, 165, 233, 0.1);
-            color: var(--brand-primary);
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            border: 1px solid rgba(14, 165, 233, 0.2);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 24px;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover {
-            color: var(--text-main);
-        }
-
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            padding: 80px 0 60px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .hero h1 {
-            font-size: 4rem;
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 24px;
-            letter-spacing: -0.02em;
-        }
-
-        .text-gradient {
-            background: linear-gradient(135deg, #38bdf8, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            max-width: 700px;
-            margin: 0 auto 40px;
-        }
-
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
-            color: white;
-            padding: 16px 32px;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            text-decoration: none;
-            box-shadow: 0 10px 25px var(--brand-glow);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 35px var(--brand-glow);
-        }
-
-        /* Mockup UI */
-        .mockup-wrapper {
-            position: relative;
-            margin: 60px auto 100px;
-            max-width: 1000px;
-            border-radius: 12px;
-            padding: 1px;
-            background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            z-index: 10;
-        }
-
-        .mockup-window {
-            background-color: var(--ed-bg);
-            border-radius: 11px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            border: 1px solid var(--ed-border);
-        }
-
-        .mockup-header {
-            height: 48px;
-            background-color: var(--ed-sec-bg);
-            border-bottom: 1px solid var(--ed-border);
-            display: flex;
-            align-items: center;
-            padding: 0 16px;
-            gap: 16px;
-        }
-
-        .mac-dots {
-            display: flex;
-            gap: 8px;
-        }
-
-        .mac-dots div {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-
-        .dot-red { background: #ff5f56; }
-        .dot-yellow { background: #ffbd2e; }
-        .dot-green { background: #27c93f; }
-
-        .mockup-title {
-            font-family: var(--font-sans);
-            font-size: 0.85rem;
-            color: #858585;
-            font-weight: 500;
-            margin-left: auto;
-            margin-right: auto;
-            padding-right: 60px; /* Offset to center */
-        }
-
-        .mockup-body {
-            display: flex;
-            height: 400px;
-        }
-
-        .mockup-sidebar {
-            width: 220px;
-            background-color: var(--ed-sec-bg);
-            border-right: 1px solid var(--ed-border);
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .mockup-file {
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            color: #858585;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-        }
-
-        .mockup-file.active {
-            background-color: var(--brand-primary);
-            color: white;
-        }
-
-        .mockup-tag {
-            font-size: 0.65rem;
-            font-weight: 700;
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
-
-        .tag-html { background: rgba(249, 115, 22, 0.15); color: #f97316; }
-        .tag-css { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
-        .active .tag-html, .active .tag-css { background: rgba(255,255,255,0.2); color: white; }
-
-        .mockup-editor {
-            flex-grow: 1;
-            padding: 20px;
-            background-color: var(--ed-bg);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            color: var(--ed-text);
-            overflow: hidden;
-            position: relative;
-        }
-
-        .mockup-toolbar {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            display: flex;
-            gap: 8px;
-        }
-
-        .mockup-btn {
-            background-color: var(--ed-ter-bg);
-            border: 1px solid var(--ed-border);
-            color: var(--ed-text);
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* Syntax Highlighting */
-        .tk-tag { color: #569cd6; }
-        .tk-attr { color: #9cdcfe; }
-        .tk-str { color: #ce9178; }
-        .tk-comment { color: #6a9955; font-style: italic; }
-
-        /* Features Section */
-        .features {
-            padding: 80px 0;
-            border-top: 1px solid var(--border);
-            position: relative;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 60px;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-        }
-
-        .feature-card {
-            background: var(--bg-surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 32px;
-            transition: transform 0.2s, background 0.2s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            background: var(--bg-surface-elevated);
-        }
-
-        .feature-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 10px;
-            background: rgba(14, 165, 233, 0.1);
-            color: var(--brand-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .feature-icon svg {
-            width: 24px;
-            height: 24px;
-        }
-
-        .feature-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-
-        .feature-card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        /* Footer & CTA */
-        .cta-section {
-            padding: 80px 0;
-            text-align: center;
-            background: linear-gradient(180deg, var(--bg-base) 0%, var(--bg-surface) 100%);
-            border-top: 1px solid var(--border);
-        }
-
-        .donation-box {
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px;
-            background: var(--bg-surface-elevated);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            margin-top: 40px;
-        }
-
-        .btn-cashapp {
-            background: #00D632;
-            color: white;
-            text-decoration: none;
-            padding: 12px 28px;
-            border-radius: 30px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 16px;
-            transition: transform 0.2s;
-        }
-
-        .btn-cashapp:hover {
-            transform: scale(1.05);
-        }
-
-        footer {
-            padding: 40px 0;
-            text-align: center;
-            color: var(--text-muted);
-            border-top: 1px solid var(--border);
-            font-size: 0.9rem;
-        }
-
-        footer a {
-            color: var(--brand-primary);
-            text-decoration: none;
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .hero p { font-size: 1rem; }
-            .mockup-body { flex-direction: column; height: auto; }
-            .mockup-sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--ed-border); }
-            .mockup-editor { height: 300px; overflow-y: auto; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Source Code Viewer — In-Browser Web Source Inspection & Reverse-Engineering Workspace</title>
+  <meta name="description" content="Inspect, beautify, audit for leaked credentials, reconstruct source maps, and export complete webpage source packages in a private, 100% client-side browser workspace.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <a href="#playground" class="skip-link">Skip to interactive playground</a>
 
-    <div class="bg-glow"></div>
+  <!-- Navigation Bar -->
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="#" class="brand-logo" aria-label="Source Code Viewer Homepage">
+        <span class="logo-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
+        </span>
+        <span class="brand-text">Source Code Viewer</span>
+        <span class="version-badge">v10.5</span>
+      </a>
 
-    <div class="container">
-        <!-- Navigation -->
-        <nav>
-            <a href="#" class="nav-logo">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="16 18 22 12 16 6"></polyline>
-                    <polyline points="8 6 2 12 8 18"></polyline>
-                </svg>
-                Source Code Viewer
-                <span class="badge">v8.0</span>
+      <nav class="nav-links" id="primary-nav" aria-label="Main Navigation">
+        <a href="#features">Features</a>
+        <a href="#playground">Live Demo</a>
+        <a href="#security">Privacy & Security</a>
+        <a href="#integrations">Exports</a>
+        <a href="#specs">Specifications</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button type="button" id="theme-toggle" class="btn-icon" aria-label="Toggle dark and light theme" title="Toggle theme">
+          <svg class="sun-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+
+        <a href="https://chromewebstore.google.com/detail/jfcfmlcbjaloijgkjhfkfioonngengnm" target="_blank" rel="noopener noreferrer" class="btn btn-primary nav-cta">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="12" r="4"></circle>
+            <line x1="4.93" y1="4.93" x2="9.17" y2="9.17"></line>
+            <line x1="14.83" y1="14.83" x2="19.07" y2="19.07"></line>
+            <line x1="14.83" y1="9.17" x2="19.07" y2="4.93"></line>
+            <line x1="4.93" y1="19.07" x2="9.17" y2="14.83"></line>
+          </svg>
+          <span>Add to Chrome</span>
+        </a>
+
+        <button type="button" class="mobile-menu-toggle" id="mobile-menu-btn" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle navigation menu">
+          <svg class="hamburger-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-content">
+          <div class="pill-badge">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span>Manifest V3 Certified • 100% Private In-Browser Sandbox</span>
+          </div>
+
+          <h1 class="hero-title">
+            The private developer workspace for reverse-engineering and extracting web source files.
+          </h1>
+
+          <p class="hero-lead">
+            Inspect live DOM trees, unbundle production source maps into readable folder structures, audit hardcoded credentials, and export organized ZIP packages or push directly to VS Code, CodePen, and GitHub Gist.
+          </p>
+
+          <div class="hero-actions">
+            <a href="https://chromewebstore.google.com/detail/jfcfmlcbjaloijgkjhfkfioonngengnm" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Install for Google Chrome</span>
             </a>
-            <div class="nav-links">
-                <a href="#features">Features</a>
-                <a href="https://github.com/gokuthug1" target="_blank">GitHub</a>
-            </div>
-        </nav>
 
-        <!-- Hero Section -->
-        <header class="hero">
-            <h1>The ultimate <span class="text-gradient">source code</span> viewer.</h1>
-            <p>Instantly view, analyze, format, and download the complete HTML, CSS, and JavaScript of any website. No external servers, no tracking—just pure native performance.</p>
-            
-            <!-- UPDATED STORE LINK HERE -->
-            <a href="https://chromewebstore.google.com/detail/source-code-viewer/jfcfmlcbjaloijgkjhfkfioonngengnm" target="_blank" class="btn-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <circle cx="12" cy="12" r="4"></circle>
-                    <line x1="21.17" y1="8" x2="12" y2="8"></line>
-                    <line x1="3.95" y1="6.06" x2="8.54" y2="14"></line>
-                    <line x1="10.88" y1="21.94" x2="15.46" y2="14"></line>
-                </svg>
-                Add to Chrome — It's Free
+            <a href="#playground" class="btn btn-secondary btn-lg">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              <span>Try Interactive Demo</span>
             </a>
-        </header>
+          </div>
 
-        <!-- Mockup Visual -->
-        <div class="mockup-wrapper">
-            <div class="mockup-window">
-                <div class="mockup-header">
-                    <div class="mac-dots">
-                        <div class="dot-red"></div>
-                        <div class="dot-yellow"></div>
-                        <div class="dot-green"></div>
-                    </div>
-                    <div class="mockup-title">viewer.html - Source Code Viewer</div>
-                </div>
-                <div class="mockup-body">
-                    <div class="mockup-sidebar">
-                        <div class="mockup-file active">
-                            <span class="mockup-tag tag-html">HTML</span> index.html
-                        </div>
-                        <div class="mockup-file">
-                            <span class="mockup-tag tag-css">CSS</span> styles.css
-                        </div>
-                        <div class="mockup-file">
-                            <span class="mockup-tag tag-css">CSS</span> inline-1.css
-                        </div>
-                    </div>
-                    <div class="mockup-editor">
-                        <div class="mockup-toolbar">
-                            <div class="mockup-btn">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72z"></path><line x1="14" y1="7" x2="17" y2="10"></line></svg>
-                                Beautify
-                            </div>
-                            <div class="mockup-btn">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                Download .zip
-                            </div>
-                        </div>
-<pre><code><span class="tk-comment">&lt;!-- Extracted by Source Code Viewer --&gt;</span>
-<span class="tk-tag">&lt;!DOCTYPE html&gt;</span>
-<span class="tk-tag">&lt;html</span> <span class="tk-attr">lang</span>=<span class="tk-str">"en"</span><span class="tk-tag">&gt;</span>
-<span class="tk-tag">&lt;head&gt;</span>
-    <span class="tk-tag">&lt;meta</span> <span class="tk-attr">charset</span>=<span class="tk-str">"UTF-8"</span><span class="tk-tag">&gt;</span>
-    <span class="tk-tag">&lt;title&gt;</span>Hello Developer<span class="tk-tag">&lt;/title&gt;</span>
-    <span class="tk-tag">&lt;link</span> <span class="tk-attr">rel</span>=<span class="tk-str">"stylesheet"</span> <span class="tk-attr">href</span>=<span class="tk-str">"styles.css"</span><span class="tk-tag">&gt;</span>
-<span class="tk-tag">&lt;/head&gt;</span>
-<span class="tk-tag">&lt;body&gt;</span>
-    <span class="tk-tag">&lt;h1&gt;</span>Un-minify anything.<span class="tk-tag">&lt;/h1&gt;</span>
-<span class="tk-tag">&lt;/body&gt;</span>
-<span class="tk-tag">&lt;/html&gt;</span></code></pre>
-                    </div>
-                </div>
+          <div class="hero-specs-row" aria-label="Core extension properties">
+            <div class="spec-item">
+              <span class="spec-label">Runtime</span>
+              <span class="spec-value">Manifest V3</span>
             </div>
+            <div class="spec-divider" aria-hidden="true"></div>
+            <div class="spec-item">
+              <span class="spec-label">Telemetry</span>
+              <span class="spec-value">Zero Tracking</span>
+            </div>
+            <div class="spec-divider" aria-hidden="true"></div>
+            <div class="spec-item">
+              <span class="spec-label">Large File Support</span>
+              <span class="spec-value">IndexedDB + Worker</span>
+            </div>
+            <div class="spec-divider" aria-hidden="true"></div>
+            <div class="spec-item">
+              <span class="spec-label">Surfaces</span>
+              <span class="spec-value">Popup, Window & Side Panel</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Simulator / Playground -->
+    <section id="playground" class="playground-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Interactive Preview</span>
+          <h2>Experience the workspace right here</h2>
+          <p>This live sandbox mirrors the actual Source Code Viewer workspace engine. Switch files, trigger code beautification, search with <code>Ctrl+F</code>, and test the credential auditor.</p>
         </div>
 
-        <!-- Features Section -->
-        <section id="features" class="features">
-            <h2 class="section-title">Built for modern web developers.</h2>
-            <div class="features-grid">
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                    </div>
-                    <h3>Deep Resource Extraction</h3>
-                    <p>Goes beyond initial HTML. Fetches and downloads all linked external CSS stylesheets and JS files, completely bypassing CORS blocks.</p>
+        <div class="workspace-card" id="demo-workspace">
+          <!-- Workspace Header -->
+          <div class="workspace-header">
+            <div class="workspace-title-group">
+              <div class="workspace-app-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="16 18 22 12 16 6"></polyline>
+                  <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+              </div>
+              <div>
+                <div class="workspace-page-title">
+                  <span id="demo-page-title">react-app.production.min.js — Sample Workspace</span>
+                  <span class="framework-tag react-tag" title="React Detected">
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <circle cx="12" cy="12" r="2"></circle>
+                      <ellipse cx="12" cy="12" rx="10" ry="4"></ellipse>
+                      <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"></ellipse>
+                      <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"></ellipse>
+                    </svg>
+                    React
+                  </span>
+                  <span class="framework-tag tailwind-tag" title="Tailwind CSS Detected">
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <path d="M6 12c2-4 5-4 7-2s4 2 6-2"></path>
+                      <path d="M3 18c2-4 5-4 7-2s4 2 6-2"></path>
+                    </svg>
+                    Tailwind
+                  </span>
                 </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72z"></path><line x1="14" y1="7" x2="17" y2="10"></line></svg>
-                    </div>
-                    <h3>Native Code Beautifier</h3>
-                    <p>Tired of unreadable minified code? Instantly un-minify and format HTML, CSS, and JS using a lightning-fast, zero-dependency formatter.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                    </div>
-                    <h3>Download Full Source</h3>
-                    <p>Click one button to generate a structured <code>.zip</code> archive of the entire webpage's assets directly to your local desktop.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
-                    </div>
-                    <h3>Interactive Highlighting</h3>
-                    <p>Experience syntax highlighting tailored for the web. All URLs found within the extracted code are automatically formatted and clickable.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-6M6 20V10M18 20V4"></path></svg>
-                    </div>
-                    <h3>Customizable Themes</h3>
-                    <p>Switch between Dark Mode and Light Mode, or use the integrated settings menu to create a 100% custom syntax highlighting color palette.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                    </div>
-                    <h3>100% Local & Private</h3>
-                    <p>Absolute respect for your privacy. All code extraction, formatting, and ZIP generation happens locally. No tracking, no remote servers.</p>
-                </div>
-
+                <span class="workspace-page-url">https://example.app/dashboard</span>
+              </div>
             </div>
-        </section>
 
-        <!-- Call to Action -->
-        <section class="cta-section">
-            <h2>Ready to inspect the web?</h2>
-            <p style="color: var(--text-muted); margin: 16px 0 32px;">Join developers worldwide who use Source Code Viewer to audit and learn from web sources.</p>
-            
-            <!-- UPDATED STORE LINK HERE -->
-            <a href="https://chromewebstore.google.com/detail/source-code-viewer/jfcfmlcbjaloijgkjhfkfioonngengnm" target="_blank" class="btn-primary">
-                Install Extension
+            <div class="workspace-header-actions">
+              <button type="button" class="btn btn-sm btn-secondary" id="demo-download-zip" title="Simulate downloading all files into a structured PKZIP bundle">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>Download .zip</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Workspace Body -->
+          <div class="workspace-body">
+            <!-- Sidebar Navigation -->
+            <aside class="workspace-sidebar" aria-label="File Explorer and Audit Panels">
+              <div class="sidebar-tabs" role="tablist">
+                <button type="button" role="tab" aria-selected="true" aria-controls="demo-panel-files" id="tab-btn-files" class="sidebar-tab active">
+                  Files <span class="tab-counter" id="demo-file-count">5</span>
+                </button>
+                <button type="button" role="tab" aria-selected="false" aria-controls="demo-panel-secrets" id="tab-btn-secrets" class="sidebar-tab">
+                  Secrets <span class="tab-counter alert" id="demo-secret-count">2</span>
+                </button>
+                <button type="button" role="tab" aria-selected="false" aria-controls="demo-panel-grep" id="tab-btn-grep" class="sidebar-tab">
+                  Grep
+                </button>
+              </div>
+
+              <!-- Files Panel -->
+              <div id="demo-panel-files" class="sidebar-panel active" role="tabpanel" aria-labelledby="tab-btn-files">
+                <div class="file-tree" id="demo-file-list"></div>
+              </div>
+
+              <!-- Secrets Audit Panel -->
+              <div id="demo-panel-secrets" class="sidebar-panel" role="tabpanel" aria-labelledby="tab-btn-secrets" hidden>
+                <div class="secrets-list" id="demo-secrets-list"></div>
+              </div>
+
+              <!-- Grep Global Search Panel -->
+              <div id="demo-panel-grep" class="sidebar-panel" role="tabpanel" aria-labelledby="tab-btn-grep" hidden>
+                <div class="grep-search-box">
+                  <input type="text" id="demo-grep-input" placeholder="Search across all files..." aria-label="Grep code across files">
+                </div>
+                <div class="grep-results" id="demo-grep-results">
+                  <p class="empty-text">Type search query to search across in-memory files.</p>
+                </div>
+              </div>
+            </aside>
+
+            <!-- Editor / Code Viewer Area -->
+            <div class="workspace-editor">
+              <div class="editor-toolbar">
+                <div class="editor-file-metadata">
+                  <span class="active-filename" id="demo-active-file-name">src/app.js</span>
+                  <span class="badge" id="demo-active-file-size">2.4 KB</span>
+                  <span class="badge" id="demo-active-file-lines">64 lines</span>
+                </div>
+
+                <div class="editor-toolbar-actions">
+                  <div class="search-inline-box" role="search">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="search" id="demo-search-input" placeholder="Find in file (Ctrl+F)" aria-label="Find text in active file">
+                    <span class="search-count" id="demo-search-count">0/0</span>
+                    <button type="button" class="btn-icon-xs" id="demo-search-prev" aria-label="Previous match" title="Previous match">
+                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                    </button>
+                    <button type="button" class="btn-icon-xs" id="demo-search-next" aria-label="Next match" title="Next match">
+                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                  </div>
+
+                  <button type="button" class="btn btn-sm btn-secondary" id="demo-beautify-btn" title="Beautify unformatted minified code">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72z"></path>
+                      <line x1="14" y1="7" x2="17" y2="10"></line>
+                    </svg>
+                    <span>Format Code</span>
+                  </button>
+
+                  <button type="button" class="btn btn-sm btn-secondary" id="demo-copy-btn" title="Copy active file contents to clipboard">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    <span id="demo-copy-text">Copy</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Code Content with Gutter -->
+              <div class="code-viewport" id="demo-code-viewport">
+                <div class="editor-gutter" id="demo-gutter" aria-hidden="true"></div>
+                <pre class="editor-pre"><code id="demo-code-container" class="hljs"></code></pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- Simulator Footer Bar -->
+          <div class="workspace-footer">
+            <span class="status-indicator">
+              <span class="dot-green" aria-hidden="true"></span>
+              Client sandbox ready
+            </span>
+            <span class="footer-meta">Encoding: UTF-8 • Tab Size: 4 • Single-pass Highlighting</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Features Grid -->
+    <section id="features" class="features-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Engineering Highlights</span>
+          <h2>Engineered for deep frontend inspection</h2>
+          <p>Source Code Viewer combines the convenience of an extension popup with the depth of a full desktop developer IDE.</p>
+        </div>
+
+        <div class="features-grid">
+          <!-- Feature 1 -->
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+              </svg>
+            </div>
+            <h3>Source Map Auto-Unbundling</h3>
+            <p>Automatically resolves <code>sourceMappingURL</code> declarations. Fetches production maps and reconstructs original source file hierarchies directly into readable developer directories.</p>
+          </article>
+
+          <!-- Feature 2 -->
+          <article class="feature-card">
+            <div class="feature-icon alert-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+            </div>
+            <h3>Credential & Secret Scanner</h3>
+            <p>Audits client-side scripts for exposed credentials including Stripe live keys, AWS Access Keys, Google API keys, OpenAI tokens, and hardcoded JWTs with context-aware line snippets.</p>
+          </article>
+
+          <!-- Feature 3 -->
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+            </div>
+            <h3>Clean PKZIP Site Downloader</h3>
+            <p>Packages all extracted scripts, stylesheets, inline blocks, SVGs, and state snapshots into standard ZIP files with sanitized relative paths, bypassing browser download throttling.</p>
+          </article>
+
+          <!-- Feature 4 -->
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="3" y1="9" x2="21" y2="9"></line>
+                <line x1="9" y1="21" x2="9" y2="9"></line>
+              </svg>
+            </div>
+            <h3>Three Flexible Operating Modes</h3>
+            <p>Inspect code the way you prefer: in a compact toolbar popup, a dedicated independent floating window, or docked into Chrome's native Side Panel alongside your active tab.</p>
+          </article>
+
+          <!-- Feature 5 -->
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+            </div>
+            <h3>Snapshot Line Diffing</h3>
+            <p>Save extraction snapshots to IndexedDB. Re-extract pages later to run linear-time diffs that immediately highlight added, changed, or deleted code lines across releases.</p>
+          </article>
+
+          <!-- Feature 6 -->
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                <polyline points="2 17 12 22 22 17"></polyline>
+                <polyline points="2 12 12 17 22 12"></polyline>
+              </svg>
+            </div>
+            <h3>Framework & Stack Detection</h3>
+            <p>Automatically identifies frontend frameworks (React, Vue, Angular, Svelte, Next.js, Nuxt) and utility ecosystems (Tailwind CSS, Bootstrap, Vite, Webpack) from bundle signatures.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Integrations Section -->
+    <section id="integrations" class="integrations-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Cloud & Desktop Workflows</span>
+          <h2>Export to your favorite development tools</h2>
+          <p>Move from in-browser inspection to active debugging in a single click.</p>
+        </div>
+
+        <div class="integrations-grid">
+          <div class="integration-card">
+            <div class="integration-header">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+              </svg>
+              <h4>VS Code Desktop</h4>
+            </div>
+            <p>Generates clone URIs or structured project bundles for opening directly in Visual Studio Code on your machine.</p>
+          </div>
+
+          <div class="integration-card">
+            <div class="integration-header">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
+              <h4>VS Code Web (vscode.dev)</h4>
+            </div>
+            <p>Launches repositories and unbundled scripts into the lightweight browser edition of VS Code with full keybindings.</p>
+          </div>
+
+          <div class="integration-card">
+            <div class="integration-header">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon>
+                <line x1="12" y1="22" x2="12" y2="15.5"></line>
+                <polyline points="22 8.5 12 15.5 2 8.5"></polyline>
+                <polyline points="2 15.5 12 8.5 22 15.5"></polyline>
+                <line x1="12" y1="2" x2="12" y2="8.5"></line>
+              </svg>
+              <h4>CodePen & JSFiddle</h4>
+            </div>
+            <p>Exports extracted HTML, CSS, and JS snippets directly into blank sandbox pens for rapid UI experimentation.</p>
+          </div>
+
+          <div class="integration-card">
+            <div class="integration-header">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+              </svg>
+              <h4>GitHub Gist</h4>
+            </div>
+            <p>Publishes multi-file inspection snapshots straight to your GitHub account using a personal access token stored safely in sync storage.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Privacy & Security Architecture -->
+    <section id="security" class="security-section">
+      <div class="container">
+        <div class="security-card">
+          <div class="security-badge-header">
+            <div class="security-shield-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
+            <div>
+              <h3>Private by Design & Zero Telemetry</h3>
+              <p>Everything runs strictly inside your local browser runtime.</p>
+            </div>
+          </div>
+
+          <div class="security-points-grid">
+            <div class="sec-item">
+              <span class="sec-check" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </span>
+              <div>
+                <strong>Zero Remote Code (`eval` Free)</strong>
+                <p>Complies strictly with Manifest V3 security requirements. All JavaScript, CSS, and lexers are bundled offline inside the extension.</p>
+              </div>
+            </div>
+
+            <div class="sec-item">
+              <span class="sec-check" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </span>
+              <div>
+                <strong>Ephemeral Content Handling</strong>
+                <p>Extracted page content stays on your machine. No code, URLs, or cookies are ever transmitted to third-party tracking services or external databases.</p>
+              </div>
+            </div>
+
+            <div class="sec-item">
+              <span class="sec-check" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </span>
+              <div>
+                <strong>IndexedDB & Web Worker Offloading</strong>
+                <p>Large multi-megabyte bundles are processed in separate Web Worker threads and stored natively in browser IndexedDB to prevent main-thread UI locking.</p>
+              </div>
+            </div>
+
+            <div class="sec-item">
+              <span class="sec-check" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </span>
+              <div>
+                <strong>Direct User-Initiated API Calls</strong>
+                <p>Network calls are only dispatched to external services (like GitHub Gist or CodePen) when you explicitly click the respective export action button.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technical Comparison Table -->
+    <section id="specs" class="specs-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Comparison</span>
+          <h2>Why developers use Source Code Viewer</h2>
+          <p>Native browser tools were built for line-by-line debugging. Source Code Viewer is built for holistic project inspection and asset retrieval.</p>
+        </div>
+
+        <div class="table-responsive">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th scope="col">Capability</th>
+                <th scope="col">Default Browser "View Source"</th>
+                <th scope="col">DevTools Sources Tab</th>
+                <th scope="col" class="highlight-col">Source Code Viewer v10.5</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Source Map Auto-Reconstruction</td>
+                <td><span class="cross-mark" aria-label="No">&#10005;</span> Raw HTML Only</td>
+                <td>Manual file-by-file</td>
+                <td class="highlight-col"><span class="check-mark" aria-label="Yes">&#10003;</span> Full Project Tree Export</td>
+              </tr>
+              <tr>
+                <td>One-Click PKZIP Archive</td>
+                <td><span class="cross-mark" aria-label="No">&#10005;</span></td>
+                <td><span class="cross-mark" aria-label="No">&#10005;</span></td>
+                <td class="highlight-col"><span class="check-mark" aria-label="Yes">&#10003;</span> Re-linked relative assets</td>
+              </tr>
+              <tr>
+                <td>Security Secret / Credential Audit</td>
+                <td><span class="cross-mark" aria-label="No">&#10005;</span></td>
+                <td><span class="cross-mark" aria-label="No">&#10005;</span></td>
+                <td class="highlight-col"><span class="check-mark" aria-label="Yes">&#10003;</span> Automated high-entropy rules</td>
+              </tr>
+              <tr>
+                <td>Side Panel Simultaneous Docking</td>
+                <td><span class="cross-mark" aria-label="No">&#10005;</span></td>
+                <td>Docked in tab viewport</td>
+                <td class="highlight-col"><span class="check-mark" aria-label="Yes">&#10003;</span> Native Chrome Side Panel API</td>
+              </tr>
+              <tr>
+                <td>Snapshot Line Diffing</td>
+                <td><span class="cross-mark" aria-label="No">&#10005;</span></td>
+                <td><span class="cross-mark" aria-label="No">&#10005;</span></td>
+                <td class="highlight-col"><span class="check-mark" aria-label="Yes">&#10003;</span> IndexedDB local snapshot engine</td>
+              </tr>
+              <tr>
+                <td>Direct Cloud Sandbox Exporters</td>
+                <td><span class="cross-mark" aria-label="No">&#10005;</span></td>
+                <td><span class="cross-mark" aria-label="No">&#10005;</span></td>
+                <td class="highlight-col"><span class="check-mark" aria-label="Yes">&#10003;</span> CodePen, VS Code, Gist, JSFiddle</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Support & Community CTA -->
+    <section class="support-section">
+      <div class="container">
+        <div class="support-card">
+          <h2>Free, open-source, and developer-supported</h2>
+          <p>Source Code Viewer is maintained for the developer community without ads or tracking. If this tool saves you time, consider supporting ongoing development.</p>
+
+          <div class="support-actions">
+            <a href="https://chromewebstore.google.com/detail/jfcfmlcbjaloijgkjhfkfioonngengnm" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="4"></circle>
+              </svg>
+              <span>Install Extension</span>
             </a>
 
-            <div style="width: 100%;"></div>
+            <a href="https://cash.app/$gokuthug1" target="_blank" rel="noopener noreferrer" class="btn btn-cashapp">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="12" y1="1" x2="12" y2="23"></line>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+              </svg>
+              <span>Tip via Cash App ($gokuthug1)</span>
+            </a>
 
-            <div class="donation-box">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #00D632; margin-bottom: 12px;">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                </svg>
-                <h3>Support Development</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">Enjoying the extension? Consider buying me a coffee.</p>
-                <a href="https://cash.app/$gokuthug1" target="_blank" class="btn-cashapp">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="12" y1="1" x2="12" y2="23"></line>
-                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                    </svg>
-                    $gokuthug1
-                </a>
-            </div>
-        </section>
+            <a href="https://github.com/gokuthug1/scv" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+              </svg>
+              <span>View Source on GitHub</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
-        <!-- Footer -->
-        <footer>
-            <p>&copy; 2026 Source Code Viewer by <a href="https://github.com/gokuthug1" target="_blank">gokuthug1</a>. Open Source extension built for developers.</p>
-        </footer>
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col brand-col">
+          <div class="brand-logo">
+            <span class="logo-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+              </svg>
+            </span>
+            <span class="brand-text">Source Code Viewer</span>
+          </div>
+          <p class="footer-desc">Professional in-browser frontend reverse engineering, asset unbundling, and inspection toolkit.</p>
+          <p class="footer-meta-id">Extension ID: <code>jfcfmlcbjaloijgkjhfkfioonngengnm</code></p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="https://chromewebstore.google.com/detail/jfcfmlcbjaloijgkjhfkfioonngengnm" target="_blank" rel="noopener noreferrer">Chrome Web Store Listing</a></li>
+            <li><a href="https://github.com/gokuthug1/scv" target="_blank" rel="noopener noreferrer">GitHub Repository</a></li>
+            <li><a href="https://sites.google.com/view/source-code-viewer" target="_blank" rel="noopener noreferrer">Official Support Page</a></li>
+            <li><a href="#playground">Interactive Simulator</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Privacy & Legal</h4>
+          <ul>
+            <li><a href="#security">Zero Telemetry Architecture</a></li>
+            <li><button type="button" id="open-privacy-modal" class="link-btn">Privacy Policy</button></li>
+            <li><a href="https://github.com/gokuthug1/scv/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT Open Source License</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; <span id="current-year">2026</span> Source Code Viewer. Licensed under MIT. Free and open source software.</p>
+      </div>
     </div>
+  </footer>
 
+  <!-- Privacy Policy Modal Dialog -->
+  <dialog id="privacy-dialog" class="accessible-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-content">
+      <div class="dialog-header">
+        <h3 id="dialog-title">Source Code Viewer — Privacy Policy</h3>
+        <button type="button" id="close-privacy-modal" class="btn-icon" aria-label="Close dialog">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="dialog-body">
+        <h4>1. Zero Data Collection & Zero Telemetry</h4>
+        <p>Source Code Viewer does not collect, store, transmit, or sell any personal data, browsing history, user identities, IP addresses, or keystrokes. The extension contains no tracking scripts, no analytics SDKs, and no remote advertising pixels.</p>
+
+        <h4>2. 100% Local In-Browser Processing</h4>
+        <p>All source code extraction, syntax highlighting, beautification, credential auditing, source map unbundling, and ZIP packaging is executed entirely within your browser's local sandbox using client-side JavaScript, IndexedDB, and Web Workers.</p>
+
+        <h4>3. User-Initiated Third-Party Exports</h4>
+        <p>If you choose to use third-party export features (e.g. CodePen, JSFiddle, StackBlitz, VS Code for Web, or GitHub Gists), only the specific code snippets you choose to export are transmitted directly to the respective third-party platform under your own direction.</p>
+
+        <h4>4. Permissions Usage</h4>
+        <p>Permissions such as <code>activeTab</code>, <code>scripting</code>, <code>downloads</code>, <code>storage</code>, and <code>sidePanel</code> are requested strictly to perform code extraction, file downloading, theme persistence, and side-panel docking on behalf of the user.</p>
+      </div>
+      <div class="dialog-footer">
+        <button type="button" id="dismiss-privacy-modal" class="btn btn-secondary">Close</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Live Toast Notification Container -->
+  <div id="site-toast" class="toast-notification" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
 </body>
 </html>
