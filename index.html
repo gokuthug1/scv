@@ -4,7 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Source Code Viewer — In-Browser Web Source Inspection & Reverse-Engineering Workspace</title>
-  <meta name="description" content="Inspect, beautify, audit for leaked credentials, reconstruct source maps, and export complete webpage source packages in a private, 100% client-side browser workspace.">
+  <meta name="description" content="Official website for Source Code Viewer. Inspect, beautify, audit for leaked credentials, reconstruct source maps, and export complete webpage source packages in a private, 100% client-side browser workspace.">
+  <link rel="canonical" href="https://gokuthug1.github.io/scv">
+  <link rel="icon" type="image/png" href="images/v.png">
+
+  <!-- Open Graph & Metadata -->
+  <meta property="og:title" content="Source Code Viewer — In-Browser Web Source Inspection & Reverse-Engineering Workspace">
+  <meta property="og:description" content="Inspect, beautify, audit for leaked credentials, reconstruct source maps, and export complete webpage source packages in a private, 100% client-side browser workspace.">
+  <meta property="og:url" content="https://gokuthug1.github.io/scv">
+  <meta property="og:type" content="website">
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -16,9 +26,9 @@
   <!-- Navigation Bar -->
   <header class="site-header">
     <div class="nav-container">
-      <a href="#" class="brand-logo" aria-label="Source Code Viewer Homepage">
+      <a href="https://gokuthug1.github.io/scv" class="brand-logo" aria-label="Source Code Viewer Homepage">
         <span class="logo-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="16 18 22 12 16 6"></polyline>
             <polyline points="8 6 2 12 8 18"></polyline>
           </svg>
@@ -33,11 +43,12 @@
         <a href="#security">Privacy & Security</a>
         <a href="#integrations">Exports</a>
         <a href="#specs">Specifications</a>
+        <a href="privacy.html">Privacy Policy</a>
       </nav>
 
       <div class="nav-actions">
         <button type="button" id="theme-toggle" class="btn-icon" aria-label="Toggle dark and light theme" title="Toggle theme">
-          <svg class="sun-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="12" cy="12" r="5"></circle>
             <line x1="12" y1="1" x2="12" y2="3"></line>
             <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -48,13 +59,13 @@
             <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
             <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
           </svg>
-          <svg class="moon-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
           </svg>
         </button>
 
         <a href="https://chromewebstore.google.com/detail/jfcfmlcbjaloijgkjhfkfioonngengnm" target="_blank" rel="noopener noreferrer" class="btn btn-primary nav-cta">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="12" cy="12" r="10"></circle>
             <circle cx="12" cy="12" r="4"></circle>
             <line x1="4.93" y1="4.93" x2="9.17" y2="9.17"></line>
@@ -66,7 +77,7 @@
         </a>
 
         <button type="button" class="mobile-menu-toggle" id="mobile-menu-btn" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle navigation menu">
-          <svg class="hamburger-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg class="hamburger-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -96,16 +107,16 @@
 
           <div class="hero-actions">
             <a href="https://chromewebstore.google.com/detail/jfcfmlcbjaloijgkjhfkfioonngengnm" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                 <polyline points="7 10 12 15 17 10"></polyline>
                 <line x1="12" y1="15" x2="12" y2="3"></line>
               </svg>
-              <span>Install for Google Chrome</span>
+              <span>Install Extension from Chrome Web Store</span>
             </a>
 
             <a href="#playground" class="btn btn-secondary btn-lg">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <polygon points="5 3 19 12 5 21 5 3"></polygon>
               </svg>
               <span>Try Interactive Demo</span>
@@ -151,7 +162,7 @@
           <div class="workspace-header">
             <div class="workspace-title-group">
               <div class="workspace-app-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="16 18 22 12 16 6"></polyline>
                   <polyline points="8 6 2 12 8 18"></polyline>
                 </svg>
@@ -160,7 +171,7 @@
                 <div class="workspace-page-title">
                   <span id="demo-page-title">react-app.production.min.js — Sample Workspace</span>
                   <span class="framework-tag react-tag" title="React Detected">
-                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                       <circle cx="12" cy="12" r="2"></circle>
                       <ellipse cx="12" cy="12" rx="10" ry="4"></ellipse>
                       <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"></ellipse>
@@ -169,7 +180,7 @@
                     React
                   </span>
                   <span class="framework-tag tailwind-tag" title="Tailwind CSS Detected">
-                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                       <path d="M6 12c2-4 5-4 7-2s4 2 6-2"></path>
                       <path d="M3 18c2-4 5-4 7-2s4 2 6-2"></path>
                     </svg>
@@ -182,7 +193,7 @@
 
             <div class="workspace-header-actions">
               <button type="button" class="btn btn-sm btn-secondary" id="demo-download-zip" title="Simulate downloading all files into a structured PKZIP bundle">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                   <polyline points="7 10 12 15 17 10"></polyline>
                   <line x1="12" y1="15" x2="12" y2="3"></line>
@@ -240,22 +251,22 @@
 
                 <div class="editor-toolbar-actions">
                   <div class="search-inline-box" role="search">
-                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                       <circle cx="11" cy="11" r="8"></circle>
                       <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
                     <input type="search" id="demo-search-input" placeholder="Find in file (Ctrl+F)" aria-label="Find text in active file">
                     <span class="search-count" id="demo-search-count">0/0</span>
                     <button type="button" class="btn-icon-xs" id="demo-search-prev" aria-label="Previous match" title="Previous match">
-                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"></polyline></svg>
                     </button>
                     <button type="button" class="btn-icon-xs" id="demo-search-next" aria-label="Next match" title="Next match">
-                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </button>
                   </div>
 
                   <button type="button" class="btn btn-sm btn-secondary" id="demo-beautify-btn" title="Beautify unformatted minified code">
-                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                       <path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72z"></path>
                       <line x1="14" y1="7" x2="17" y2="10"></line>
                     </svg>
@@ -263,7 +274,7 @@
                   </button>
 
                   <button type="button" class="btn btn-sm btn-secondary" id="demo-copy-btn" title="Copy active file contents to clipboard">
-                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                       <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                       <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                     </svg>
@@ -305,7 +316,7 @@
           <!-- Feature 1 -->
           <article class="feature-card">
             <div class="feature-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="16 18 22 12 16 6"></polyline>
                 <polyline points="8 6 2 12 8 18"></polyline>
               </svg>
@@ -317,7 +328,7 @@
           <!-- Feature 2 -->
           <article class="feature-card">
             <div class="feature-icon alert-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                 <line x1="12" y1="8" x2="12" y2="12"></line>
                 <line x1="12" y1="16" x2="12.01" y2="16"></line>
@@ -330,7 +341,7 @@
           <!-- Feature 3 -->
           <article class="feature-card">
             <div class="feature-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                 <polyline points="7 10 12 15 17 10"></polyline>
                 <line x1="12" y1="15" x2="12" y2="3"></line>
@@ -343,7 +354,7 @@
           <!-- Feature 4 -->
           <article class="feature-card">
             <div class="feature-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                 <line x1="3" y1="9" x2="21" y2="9"></line>
                 <line x1="9" y1="21" x2="9" y2="9"></line>
@@ -356,7 +367,7 @@
           <!-- Feature 5 -->
           <article class="feature-card">
             <div class="feature-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="18" y1="20" x2="18" y2="10"></line>
                 <line x1="12" y1="20" x2="12" y2="4"></line>
                 <line x1="6" y1="20" x2="6" y2="14"></line>
@@ -369,7 +380,7 @@
           <!-- Feature 6 -->
           <article class="feature-card">
             <div class="feature-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
                 <polyline points="2 17 12 22 22 17"></polyline>
                 <polyline points="2 12 12 17 22 12"></polyline>
@@ -394,7 +405,7 @@
         <div class="integrations-grid">
           <div class="integration-card">
             <div class="integration-header">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <polyline points="16 18 22 12 16 6"></polyline>
                 <polyline points="8 6 2 12 8 18"></polyline>
               </svg>
@@ -405,7 +416,7 @@
 
           <div class="integration-card">
             <div class="integration-header">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <circle cx="12" cy="12" r="10"></circle>
                 <line x1="2" y1="12" x2="22" y2="12"></line>
                 <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
@@ -417,7 +428,7 @@
 
           <div class="integration-card">
             <div class="integration-header">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon>
                 <line x1="12" y1="22" x2="12" y2="15.5"></line>
                 <polyline points="22 8.5 12 15.5 2 8.5"></polyline>
@@ -431,7 +442,7 @@
 
           <div class="integration-card">
             <div class="integration-header">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
               </svg>
               <h4>GitHub Gist</h4>
@@ -448,7 +459,7 @@
         <div class="security-card">
           <div class="security-badge-header">
             <div class="security-shield-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
               </svg>
             </div>
@@ -461,7 +472,7 @@
           <div class="security-points-grid">
             <div class="sec-item">
               <span class="sec-check" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
               </span>
               <div>
                 <strong>Zero Remote Code (`eval` Free)</strong>
@@ -471,7 +482,7 @@
 
             <div class="sec-item">
               <span class="sec-check" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
               </span>
               <div>
                 <strong>Ephemeral Content Handling</strong>
@@ -481,7 +492,7 @@
 
             <div class="sec-item">
               <span class="sec-check" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
               </span>
               <div>
                 <strong>IndexedDB & Web Worker Offloading</strong>
@@ -491,7 +502,7 @@
 
             <div class="sec-item">
               <span class="sec-check" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
               </span>
               <div>
                 <strong>Direct User-Initiated API Calls</strong>
@@ -574,15 +585,15 @@
 
           <div class="support-actions">
             <a href="https://chromewebstore.google.com/detail/jfcfmlcbjaloijgkjhfkfioonngengnm" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <circle cx="12" cy="12" r="10"></circle>
                 <circle cx="12" cy="12" r="4"></circle>
               </svg>
-              <span>Install Extension</span>
+              <span>Install from Chrome Web Store</span>
             </a>
 
             <a href="https://cash.app/$gokuthug1" target="_blank" rel="noopener noreferrer" class="btn btn-cashapp">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <line x1="12" y1="1" x2="12" y2="23"></line>
                 <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
               </svg>
@@ -590,7 +601,7 @@
             </a>
 
             <a href="https://github.com/gokuthug1/scv" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
               </svg>
               <span>View Source on GitHub</span>
@@ -608,14 +619,14 @@
         <div class="footer-col brand-col">
           <div class="brand-logo">
             <span class="logo-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="16 18 22 12 16 6"></polyline>
                 <polyline points="8 6 2 12 8 18"></polyline>
               </svg>
             </span>
             <span class="brand-text">Source Code Viewer</span>
           </div>
-          <p class="footer-desc">Professional in-browser frontend reverse engineering, asset unbundling, and inspection toolkit.</p>
+          <p class="footer-desc">Documentation and interactive playground for the Source Code Viewer extension. Built for frontend reverse-engineering and client-side asset unbundling.</p>
           <p class="footer-meta-id">Extension ID: <code>jfcfmlcbjaloijgkjhfkfioonngengnm</code></p>
         </div>
 
@@ -624,7 +635,7 @@
           <ul>
             <li><a href="https://chromewebstore.google.com/detail/jfcfmlcbjaloijgkjhfkfioonngengnm" target="_blank" rel="noopener noreferrer">Chrome Web Store Listing</a></li>
             <li><a href="https://github.com/gokuthug1/scv" target="_blank" rel="noopener noreferrer">GitHub Repository</a></li>
-            <li><a href="https://sites.google.com/view/source-code-viewer" target="_blank" rel="noopener noreferrer">Official Support Page</a></li>
+            <li><a href="https://github.com/gokuthug1/scv/issues" target="_blank" rel="noopener noreferrer">Issue Tracker & Support</a></li>
             <li><a href="#playground">Interactive Simulator</a></li>
           </ul>
         </div>
@@ -633,25 +644,26 @@
           <h4>Privacy & Legal</h4>
           <ul>
             <li><a href="#security">Zero Telemetry Architecture</a></li>
-            <li><button type="button" id="open-privacy-modal" class="link-btn">Privacy Policy</button></li>
+            <li><a href="privacy.html">Full Privacy Policy</a></li>
+            <li><button type="button" id="open-privacy-modal" class="link-btn">Quick Privacy Summary</button></li>
             <li><a href="https://github.com/gokuthug1/scv/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT Open Source License</a></li>
           </ul>
         </div>
       </div>
 
       <div class="footer-bottom">
-        <p>&copy; <span id="current-year">2026</span> Source Code Viewer. Licensed under MIT. Free and open source software.</p>
+        <p>&copy; <span id="current-year">2026</span> <a href="https://gokuthug1.github.io/scv">Source Code Viewer</a>. Licensed under MIT. Free and open-source software.</p>
       </div>
     </div>
   </footer>
 
-  <!-- Privacy Policy Modal Dialog -->
+  <!-- Privacy Policy Quick Modal Dialog -->
   <dialog id="privacy-dialog" class="accessible-dialog" aria-labelledby="dialog-title">
     <div class="dialog-content">
       <div class="dialog-header">
-        <h3 id="dialog-title">Source Code Viewer — Privacy Policy</h3>
+        <h3 id="dialog-title">Source Code Viewer — Privacy Summary</h3>
         <button type="button" id="close-privacy-modal" class="btn-icon" aria-label="Close dialog">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
@@ -669,6 +681,8 @@
 
         <h4>4. Permissions Usage</h4>
         <p>Permissions such as <code>activeTab</code>, <code>scripting</code>, <code>downloads</code>, <code>storage</code>, and <code>sidePanel</code> are requested strictly to perform code extraction, file downloading, theme persistence, and side-panel docking on behalf of the user.</p>
+
+        <p><a href="privacy.html" style="font-weight: 600;">Read the full Privacy Policy document &rarr;</a></p>
       </div>
       <div class="dialog-footer">
         <button type="button" id="dismiss-privacy-modal" class="btn btn-secondary">Close</button>
