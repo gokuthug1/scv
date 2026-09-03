@@ -4,16 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy | Source Code Viewer</title>
+    <link rel="canonical" href="https://gokuthug1.io/scv/privacy">
     <link rel="icon" type="image/png" href="images/v.png">
-    
+
+    <!-- Open Graph & Metadata -->
+    <meta name="description" content="Official Privacy Policy for Source Code Viewer (v10.5). Learn how our 100% in-browser, zero-telemetry architecture protects your privacy.">
+    <meta property="og:title" content="Privacy Policy | Source Code Viewer">
+    <meta property="og:description" content="100% local in-browser source code inspection and reverse engineering with zero telemetry.">
+    <meta property="og:url" content="https://gokuthug1.io/scv/privacy">
+    <meta property="og:type" content="website">
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    
+
     <style>
         :root {
-            /* Light Theme Variables */
+            /* Light Theme Tokens */
             --bg-base: #f8fafc;
             --bg-surface: #ffffff;
             --bg-surface-secondary: #f1f5f9;
@@ -38,7 +46,7 @@
 
         @media (prefers-color-scheme: dark) {
             :root {
-                /* Dark Theme Variables */
+                /* Dark Theme Tokens */
                 --bg-base: #0b0f19;
                 --bg-surface: #111827;
                 --bg-surface-secondary: #1f2937;
@@ -80,6 +88,11 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
+        :focus-visible {
+            outline: 2px solid var(--brand-primary);
+            outline-offset: 2px;
+        }
+
         /* Navigation */
         nav {
             background-color: var(--bg-surface);
@@ -96,6 +109,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 16px;
         }
 
         .nav-logo {
@@ -106,17 +120,17 @@
             font-size: 1.05rem;
             color: var(--text-main);
             text-decoration: none;
-            outline: none;
-        }
-
-        .nav-logo:focus-visible {
-            box-shadow: 0 0 0 3px var(--focus-ring);
-            border-radius: 4px;
         }
 
         .nav-logo svg {
             color: var(--brand-primary);
             flex-shrink: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 18px;
         }
 
         .nav-links a {
@@ -128,17 +142,10 @@
             font-size: 0.9rem;
             font-weight: 500;
             transition: color 0.15s ease;
-            outline: none;
         }
 
-        .nav-links a:hover,
-        .nav-links a:focus-visible {
+        .nav-links a:hover {
             color: var(--brand-primary);
-        }
-
-        .nav-links a:focus-visible {
-            box-shadow: 0 0 0 2px var(--focus-ring);
-            border-radius: 4px;
         }
 
         /* Container */
@@ -213,7 +220,7 @@
             margin-top: 2px;
         }
 
-        /* Section Styling */
+        /* Sections */
         section {
             margin-bottom: 36px;
         }
@@ -226,9 +233,6 @@
             padding-bottom: 8px;
             border-bottom: 1px solid var(--border);
             letter-spacing: -0.015em;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
         section h3 {
@@ -330,18 +334,12 @@
             text-decoration: none;
             font-weight: 500;
             transition: color 0.15s ease;
-            outline: none;
         }
 
         a:hover {
             color: var(--brand-hover);
             text-decoration: underline;
             text-underline-offset: 3px;
-        }
-
-        a:focus-visible {
-            box-shadow: 0 0 0 2px var(--focus-ring);
-            border-radius: 3px;
         }
 
         /* Footer */
@@ -371,6 +369,7 @@
             header h1 { font-size: 1.75rem; }
             section h2 { font-size: 1.2rem; }
             nav { padding: 12px 16px; }
+            .nav-links { gap: 12px; }
         }
     </style>
 </head>
@@ -379,7 +378,7 @@
     <!-- Header Navigation -->
     <nav aria-label="Main Navigation">
         <div class="nav-container">
-            <a href="https://sites.google.com/view/source-code-viewer" class="nav-logo" aria-label="Source Code Viewer Homepage">
+            <a href="https://gokuthug1.io/scv" class="nav-logo" aria-label="Source Code Viewer Homepage">
                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="16 18 22 12 16 6"></polyline>
                     <polyline points="8 6 2 12 8 18"></polyline>
@@ -387,11 +386,18 @@
                 <span>Source Code Viewer</span>
             </a>
             <div class="nav-links">
+                <a href="https://gokuthug1.io/scv">
+                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    <span>Overview</span>
+                </a>
                 <a href="https://github.com/gokuthug1/scv" target="_blank" rel="noopener noreferrer">
-                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
                     </svg>
-                    <span>GitHub Repository</span>
+                    <span>GitHub</span>
                 </a>
             </div>
         </div>
@@ -406,7 +412,7 @@
                 <span>Manifest V3 Certified &bull; Zero Telemetry</span>
             </div>
             <h1>Privacy Policy</h1>
-            <p class="last-updated">Last Updated: August 2026 &bull; Codebase Version: 10.4</p>
+            <p class="last-updated">Last Updated: September 3, 2026 &bull; Extension Version: 10.5</p>
         </header>
 
         <main>
@@ -423,12 +429,12 @@
 
             <section id="zero-data-collection">
                 <h2>1. Zero Telemetry & Data Collection Policy</h2>
-                <p>Source Code Viewer is engineered from the ground up as an offline-capable developer utility. We adhere strictly to the principle of data minimization:</p>
+                <p>Source Code Viewer (<a href="https://gokuthug1.io/scv">https://gokuthug1.io/scv</a>) is engineered from the ground up as an offline-capable developer utility. We adhere strictly to the principle of data minimization:</p>
                 <ul>
                     <li><strong>No Tracking Scripts:</strong> The Extension contains zero telemetry SDKs, zero analytics scripts (such as Google Analytics, Segment, or Mixpanel), and zero tracking pixels.</li>
                     <li><strong>No Personal Identifiers:</strong> We do not collect, read, or request names, email addresses, phone numbers, IP addresses, geolocation data, or hardware identifiers.</li>
                     <li><strong>No Browsing History Recording:</strong> We do not log, retain, or transmit lists of URLs visited, search histories, or session timestamps.</li>
-                    <li><strong>No Sale of Data:</strong> We do not sell, rent, license, or transfer user information or website content to data brokers, ad networks, or third parties under any circumstance.</li>
+                    <li><strong>No Sale or Transfer of Data:</strong> We do not sell, rent, license, or transfer user information or website content to data brokers, ad networks, or third parties under any circumstance.</li>
                 </ul>
             </section>
 
@@ -439,9 +445,9 @@
                     <li><strong>DOM Markup & Documents:</strong> Rendered client-side HTML DOM trees and document metadata.</li>
                     <li><strong>Stylesheets:</strong> Linked external stylesheets (<code>&lt;link rel="stylesheet"&gt;</code>), inline style blocks (<code>&lt;style&gt;</code>), and encapsulated Shadow DOM styling.</li>
                     <li><strong>Scripts:</strong> Linked external script files (<code>&lt;script src="..."&gt;</code>), dynamic JavaScript chunks, and inline script tags.</li>
-                    <li><strong>Media & Binary References:</strong> Image sources (<code>&lt;img&gt;</code>), audio/video tags, fonts, and linked web application manifests.</li>
+                    <li><strong>Media & Binary References:</strong> Image sources (<code>&lt;img&gt;</code>), audio/video tags, web fonts, and linked web application manifests.</li>
                     <li><strong>Source Maps:</strong> Publicly exposed source map files (<code>.map</code>) referenced by scripts or stylesheets, used exclusively to unbundle original development file trees for inspection.</li>
-                    <li><strong>Browser Storage Dump (Inspection Feature):</strong> When inspecting a page, readable client-side <code>localStorage</code>, <code>sessionStorage</code>, and active document cookies are structured into a downloadable <code>state.json</code> snapshot for debugging purposes.</li>
+                    <li><strong>Browser Storage Dump (Inspection Feature):</strong> When inspecting a page, readable client-side <code>localStorage</code>, <code>sessionStorage</code>, and active document cookies are structured into a downloadable <code>state.json</code> snapshot for local debugging purposes.</li>
                 </ul>
                 <p><strong>Ephemeral Processing Guarantee:</strong> All extraction, lexical tokenization, regex-based secret scanning, CSS coverage analysis, and beautification are computed in local browser memory and dedicated client-side Web Workers (<code>js/worker.js</code>). No website content is ever transmitted to an external server or proxy.</p>
             </section>
@@ -459,7 +465,7 @@
             <section id="third-party-exports">
                 <h2>4. User-Initiated Third-Party Cloud Exports (Optional)</h2>
                 <p>The Extension contains optional cloud and IDE export integrations designed to help developers test code snippets. <strong>These exports are entirely manual and never execute automatically.</strong></p>
-                <p>When you explicitly click an export button, only the code snippets currently open are packaged and forwarded directly to the selected service under your control:</p>
+                <p>When you explicitly click an export button, only the code snippets currently open are packaged and forwarded directly to the selected service under your direction:</p>
                 <ul>
                     <li><strong>VS Code Desktop:</strong> Packages an organized project archive (<code>.zip</code>) locally to your disk and initiates a local protocol handler (<code>vscode://file/...</code>).</li>
                     <li><strong>VS Code for Web (vscode.dev):</strong> Navigates to official GitHub-hosted repository links on <code>vscode.dev</code>.</li>
@@ -469,7 +475,7 @@
             </section>
 
             <section id="permissions-table">
-                <h2>5. Chrome Permissions Justifications</h2>
+                <h2>5. Chrome Manifest V3 Permissions Justifications</h2>
                 <p>Under Google Chrome's Manifest V3 standard, the Extension declares permissions strictly required for its single purpose as a developer inspection and export tool:</p>
 
                 <div class="table-wrapper">
@@ -491,11 +497,11 @@
                             </tr>
                             <tr>
                                 <td><span class="perm-tag">storage</span></td>
-                                <td>Saves user theme preferences, custom CSS overrides, display configurations in <code>chrome.storage.sync</code>, and transfers extraction sessions via <code>chrome.storage.local</code>.</td>
+                                <td>Saves user theme preferences, custom CSS overrides, and display configurations in <code>chrome.storage.sync</code>, and transfers extraction sessions via <code>chrome.storage.local</code>.</td>
                             </tr>
                             <tr>
                                 <td><span class="perm-tag">downloads</span></td>
-                                <td>Enables users to download individual extracted source files, unbundled source maps, and complete website asset ZIP archives to local disk.</td>
+                                <td>Enables users to download individual extracted source files, unbundled source maps, and complete website asset ZIP archives directly to local disk.</td>
                             </tr>
                             <tr>
                                 <td><span class="perm-tag">contextMenus</span></td>
@@ -526,7 +532,7 @@
                 <h2>6. Remote Code Declaration</h2>
                 <p>Source Code Viewer complies strictly with Chrome Web Store policies prohibiting remote code execution:</p>
                 <ul>
-                    <li>All JavaScript (including parsers, formatters, lexers, and scanners), CSS stylesheets, HTML files, and graphic assets are <strong>100% packaged locally</strong> within the extension CRX package.</li>
+                    <li>All JavaScript (including parsers, formatters, lexers, and scanners), CSS stylesheets, HTML files, and graphic assets are <strong>100% packaged locally</strong> within the extension package.</li>
                     <li>The Extension does not execute dynamic code via <code>eval()</code> or <code>new Function()</code>.</li>
                     <li>No scripts, stylesheets, or dependencies are loaded from external CDNs, remote endpoints, or third-party cloud buckets.</li>
                 </ul>
@@ -540,23 +546,25 @@
 
             <section id="policy-changes">
                 <h2>8. Updates to This Privacy Policy</h2>
-                <p>We may update this Privacy Policy periodically to reflect new browser capabilities, Chrome Web Store policy updates, or version releases. Any revisions will be published to this URL with an updated revision date at the top of the document.</p>
+                <p>We may update this Privacy Policy periodically to reflect new browser capabilities, Chrome Web Store policy updates, or version releases. Any revisions will be published to the canonical privacy URL (<a href="https://gokuthug1.io/scv/privacy">https://gokuthug1.io/scv/privacy</a>) with an updated revision date at the top of the document.</p>
             </section>
 
             <section id="contact">
                 <h2>9. Inquiries and Open Source Verification</h2>
-                <p>Source Code Viewer is transparent and open-source. Developers and security auditors are welcome to review the codebase, report vulnerabilities, or submit inquiries:</p>
+                <p>Source Code Viewer is transparent and open-source. Developers and security auditors are welcome to review the codebase, report issues, or submit inquiries:</p>
                 <ul>
-                    <li><strong>GitHub Issues Tracker:</strong> <a href="https://github.com/gokuthug1/scv/issues" target="_blank" rel="noopener noreferrer">https://github.com/gokuthug1/scv/issues</a></li>
+                    <li><strong>Official Homepage:</strong> <a href="https://gokuthug1.io/scv">https://gokuthug1.io/scv</a></li>
+                    <li><strong>Canonical Privacy URL:</strong> <a href="https://gokuthug1.io/scv/privacy">https://gokuthug1.io/scv/privacy</a></li>
+                    <li><strong>GitHub Issues & Source Code:</strong> <a href="https://github.com/gokuthug1/scv/issues" target="_blank" rel="noopener noreferrer">https://github.com/gokuthug1/scv/issues</a></li>
                     <li><strong>Developer Contact Email:</strong> <a href="mailto:gokuthug833@gmail.com">gokuthug833@gmail.com</a></li>
-                    <li><strong>Official Extension Listing:</strong> <a href="https://chromewebstore.google.com/detail/jfcfmlcbjaloijgkjhfkfioonngengnm" target="_blank" rel="noopener noreferrer">Source Code Viewer on Chrome Web Store</a></li>
+                    <li><strong>Chrome Web Store Listing:</strong> <a href="https://chromewebstore.google.com/detail/jfcfmlcbjaloijgkjhfkfioonngengnm" target="_blank" rel="noopener noreferrer">Source Code Viewer on Chrome Web Store</a></li>
                 </ul>
             </section>
         </main>
     </div>
 
     <footer>
-        <p>&copy; <span id="currentYear">2026</span> Source Code Viewer. Open-source client-side developer tooling.</p>
+        <p>&copy; <span id="currentYear">2026</span> <a href="https://gokuthug1.io/scv">Source Code Viewer</a>. Open-source client-side developer tooling.</p>
         <p>This privacy document applies exclusively to the Source Code Viewer extension (ID: <code>jfcfmlcbjaloijgkjhfkfioonngengnm</code>).</p>
     </footer>
 
