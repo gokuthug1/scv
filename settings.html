@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Source Code Viewer Settings</title>
+
+  <link rel="icon" type="image/png" href="images/v.png">
+
+  <style id="theme-styles"></style>
+
+  <link rel="stylesheet" href="css/settings.css">
+
+  <style id="custom-user-css"></style>
+
+</head>
+
+<body>
+
+  <div class="container">
+
+    <header>
+
+      <h1>Settings</h1>
+
+      <p>Configure appearance, extraction behavior, and export preferences.</p>
+
+    </header>
+
+
+
+    <div class="setting-row">
+
+      <label for="theme-select">Theme</label>
+
+      <select id="theme-select">
+
+        <option value="Dark">Dark</option>
+
+        <option value="Light">Light</option>
+
+        <option value="Monokai">Monokai</option>
+
+        <option value="Nord">Nord</option>
+
+        <option value="Dracula">Dracula</option>
+
+        <option value="Cyberpunk">Cyberpunk</option>
+
+        <option value="Solarized Dark">Solarized Dark</option>
+
+        <option value="Custom">Custom</option>
+
+      </select>
+
+    </div>
+
+
+
+    <div class="setting-row">
+
+      <label for="window-mode-toggle" title="Opens the extension in a floating window instead of a popup">Window Mode</label>
+
+      <label class="toggle-switch">
+
+        <input type="checkbox" id="window-mode-toggle">
+
+        <span class="toggle-slider"></span>
+
+      </label>
+
+    </div>
+
+
+
+    <div class="setting-row">
+
+      <label for="tab-switching-toggle" title="Allows switching between open tabs inside the dropdown selector">Enable Tab Switching</label>
+
+      <label class="toggle-switch">
+
+        <input type="checkbox" id="tab-switching-toggle">
+
+        <span class="toggle-slider"></span>
+
+      </label>
+
+    </div>
+
+
+
+    <div class="setting-row">
+
+      <label for="auto-beautify-toggle" title="Automatically format HTML, CSS, and JS code upon extraction">Auto Beautify</label>
+
+      <label class="toggle-switch">
+
+        <input type="checkbox" id="auto-beautify-toggle">
+
+        <span class="toggle-slider"></span>
+
+      </label>
+
+      <span id="beautify-warning" class="warning-text">
+
+        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-warning-svg"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+
+        Formatting heavy sites (e.g. YouTube, SPA bundles) may take several seconds.
+
+      </span>
+
+    </div>
+
+
+
+    <div class="setting-row">
+
+      <label for="hide-actions-toggle" title="Hides the Beautify, Copy, and Open in Tab buttons inside the code viewer">Hide Code Actions</label>
+
+      <label class="toggle-switch">
+
+        <input type="checkbox" id="hide-actions-toggle">
+
+        <span class="toggle-slider"></span>
+
+      </label>
+
+    </div>
+
+
+
+    <div class="setting-row">
+
+      <label for="hide-donation-toggle" title="Hides the donate button in the popup and the Support section below">Hide Donation Links</label>
+
+      <label class="toggle-switch">
+
+        <input type="checkbox" id="hide-donation-toggle">
+
+        <span class="toggle-slider"></span>
+
+      </label>
+
+    </div>
+
+
+
+    <div class="setting-row">
+
+      <label for="deep-crawl-toggle" title="Downloads images, media, fonts, and linked HTML pages">Deep Crawl</label>
+
+      <label class="toggle-switch">
+
+        <input type="checkbox" id="deep-crawl-toggle">
+
+        <span class="toggle-slider"></span>
+
+      </label>
+
+      <span id="deep-crawl-warning" class="warning-text">
+
+        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-warning-svg"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+
+        Deep crawl downloads binary media, stylesheets, and linked sub-resources.
+
+      </span>
+
+    </div>
+
+
+
+    <div class="setting-row">
+
+      <label for="context-menu-toggle" title="Adds a 'Open Source Code Viewer' option when right-clicking on pages">Enable Context Menu</label>
+
+      <label class="toggle-switch">
+
+        <input type="checkbox" id="context-menu-toggle">
+
+        <span class="toggle-slider"></span>
+
+      </label>
+
+    </div>
+
+
+
+    <div class="setting-row">
+
+      <label for="custom-tooltips-toggle" title="Enables custom tooltips instead of browser default ones">Custom Tooltips</label>
+
+      <label class="toggle-switch">
+
+        <input type="checkbox" id="custom-tooltips-toggle">
+
+        <span class="toggle-slider"></span>
+
+      </label>
+
+    </div>
+
+
+
+    <div class="setting-row">
+
+      <label for="line-numbers-toggle" title="Shows line numbers in the editor gutter and line count statistics">Show Line Numbers</label>
+
+      <label class="toggle-switch">
+
+        <input type="checkbox" id="line-numbers-toggle" checked>
+
+        <span class="toggle-slider"></span>
+
+      </label>
+
+    </div>
+
+
+
+    <div class="setting-row">
+
+      <label for="github-pat-input" title="GitHub Personal Access Token for exporting extractions directly to Gists">GitHub PAT Token</label>
+
+      <input type="password" id="github-pat-input" placeholder="ghp_..." autocomplete="off" spellcheck="false" style="padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border-color); background-color: var(--main-bg); color: var(--main-text-color); font-family: inherit; font-size: 0.85rem; width: 220px;">
+
+    </div>
+
+
+
+    <fieldset id="custom-theme-settings" style="display: none;">
+
+      <legend>Custom Theme Colors</legend>
+
+
+
+      <div class="theme-manager-toolbar">
+
+        <div class="theme-preset-controls">
+
+          <label for="theme-preset-select">Preset:</label>
+
+          <select id="theme-preset-select" class="compact-select"></select>
+
+          <button type="button" id="save-preset-btn" class="secondary-btn small-btn" title="Save current colors as a named custom preset">Save As...</button>
+
+          <button type="button" id="delete-preset-btn" class="secondary-btn small-btn danger-btn" title="Delete selected custom preset" style="display: none;">Delete</button>
+
+        </div>
+
+
+
+        <div class="theme-file-controls">
+
+          <button type="button" id="export-theme-btn" class="secondary-btn small-btn" title="Export theme as a JSON file">
+
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-svg"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+
+            Export
+
+          </button>
+
+          <label for="import-theme-file" class="secondary-btn small-btn import-file-label" title="Import theme from a JSON file">
+
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-svg"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+
+            Import
+
+            <input type="file" id="import-theme-file" accept=".json,application/json" style="display: none;">
+
+          </label>
+
+        </div>
+
+      </div>
+
+
+
+      <div id="custom-color-pickers-container"></div>
+
+    </fieldset>
+
+
+
+    <fieldset id="custom-css-section" class="custom-css-section">
+
+      <legend>Custom CSS Editor</legend>
+
+      <p class="section-desc">Write CSS overrides to personalize the appearance of the code viewer, popup, line numbers, and toolbars.</p>
+
+
+
+      <div class="css-editor-toolbar">
+
+        <div class="css-preset-group">
+
+          <label for="css-snippet-select">Snippet:</label>
+
+          <select id="css-snippet-select" class="compact-select">
+
+            <option value="">-- Choose a Preset Snippet --</option>
+
+            <option value="neon-glow">Neon Link Glow & Accents</option>
+
+            <option value="glassmorphism">Translucent Panels</option>
+
+            <option value="custom-font">Custom Code Font & Ligatures</option>
+
+            <option value="minimal-clean">Minimalist Clean Editor</option>
+
+            <option value="retro-amber">Retro Terminal Palette</option>
+
+            <option value="cyberpunk-borders">Cyberpunk Glowing Outlines</option>
+
+            <option value="custom-scrollbar">Custom Scrollbar</option>
+
+          </select>
+
+          <button type="button" id="insert-snippet-btn" class="secondary-btn small-btn">Insert</button>
+
+        </div>
+
+        <div class="css-btn-group">
+
+          <button type="button" id="format-css-btn" class="secondary-btn small-btn" title="Auto-format CSS code">Format CSS</button>
+
+          <button type="button" id="clear-css-btn" class="secondary-btn small-btn" title="Clear CSS editor">Clear</button>
+
+        </div>
+
+      </div>
+
+
+
+      <div class="css-editor-container">
+
+        <div class="css-editor-gutter" id="css-editor-gutter">1</div>
+
+        <textarea id="custom-css-input" class="css-editor-textarea" spellcheck="false" placeholder="/* Enter custom CSS rules here */&#10;.token.url { font-weight: 500; }&#10;.scv-line-number { opacity: 0.6; }"></textarea>
+
+      </div>
+
+      <div class="css-editor-footer">
+
+        <span id="css-status" class="css-status-text">Live preview active</span>
+
+        <span id="css-char-count" class="css-char-count">0 chars</span>
+
+      </div>
+
+    </fieldset>
+
+
+
+    <div class="actions">
+
+      <button id="save-btn" class="primary-btn">Save Settings</button>
+
+      <span id="status-message" aria-live="polite"></span>
+
+    </div>
+
+
+
+    <div class="donation-section" id="donation-section">
+
+      <h2>Support Development</h2>
+
+      <p>Source Code Viewer is 100% free and open-source.</p>
+
+
+
+      <div class="qr-container">
+
+        <img src="images/QR.svg" alt="Scan to Donate via Cash App">
+
+      </div>
+
+
+
+      <a href="https://cash.app/$gokuthug1" target="_blank" rel="noopener noreferrer" class="donate-link-btn">
+
+        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+            <line x1="12" y1="1" x2="12" y2="23"></line>
+
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+
+        </svg>
+
+        $gokuthug1
+
+      </a>
+
+    </div>
+
+
+
+  </div>
+
+
+
+  <script src="js/themes.js"></script>
+
+  <script src="js/beautifier.js"></script>
+
+  <script src="js/settings.js"></script>
+
+</body>
+
+</html>
